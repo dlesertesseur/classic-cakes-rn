@@ -42,8 +42,7 @@ export default function App() {
         />
       ) : (
         <ProductDetailScreen
-          setProductSelected={setProductSelected}
-          setCategorySelected={setCategorySelected}
+          category={categorySelected}
           product={productSelected}
           onBack={toProductsScreen}
         />

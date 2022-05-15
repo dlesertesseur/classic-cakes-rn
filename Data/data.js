@@ -60,27 +60,27 @@ export const PRODUCTS = [
   export const CATEGORIES = [
     {
         id:1,
-        text: "TARTAS",
+        text: "Tartas",
         path:"/category/tarta"
     },
     {
         id:2,
-        text: "POSTRES",
+        text: "Postres",
         path:"/category/postre"
     },
     {
         id:3,
-        text: "GALLETITAS",
+        text: "Galletitas",
         path:"/category/galletita"
     },
     {
         id:4,
-        text: "MASAS SECAS",
+        text: "Masas secas",
         path:"/category/masaSeca"
     },
     {
         id:5,
-        text: "FESTIVOS",
+        text: "Festivos",
         path:"/category/festivo"
     },
 ];

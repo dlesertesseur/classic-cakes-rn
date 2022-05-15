@@ -8,7 +8,7 @@ import PropertyRow from "../Components/PropertyRow";
 const onPress = () => {};
 
 const ProductDetailScreen = (props) => {
-  const { product, onBack } = props;
+  const {category, product, onBack } = props;
 
   const { height, width } = useWindowDimensions();
   const imgW = width - 20;
@@ -23,7 +23,7 @@ const ProductDetailScreen = (props) => {
         />
       </View>
       <View style={styles.properties}>
-        <PropertyRow value={product.title} extraStyle={{ fontSize: 22, fontWeight: "bold" }} />
+        <PropertyRow value={category.text + " | " + product.title} extraStyle={{ fontSize: 22, fontWeight: "bold" }} />
         <PropertyRow value={product.description} />
         <PropertyRow label="Precio $" value={product.price} />
       </View>
