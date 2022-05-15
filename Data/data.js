@@ -83,14 +83,4 @@ export const PRODUCTS = [
         text: "FESTIVOS",
         path:"/category/festivo"
     },
-    {
-      id:6,
-      text: "OTROS",
-      path:"/category/otros"
-    },
-    {
-      id:7,
-      text: "OTROS 2",
-      path:"/category/otros2"
-    },
 ];
