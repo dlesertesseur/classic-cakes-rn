@@ -8,13 +8,20 @@ import Searcher from "../Components/Searcher";
 import CategoryItem from "../Components/List/CategoryItem";
 
 const CategoriesScreen = (props) => {
+  const { placeholder, navigation } = props;
 
-  const {setCategorySelected, placeholder} = props;
+  const [filteredCategories, setSetFilteredCategories] =
+    React.useState(CATEGORIES);
 
-  const [filteredCategories, setSetFilteredCategories] = React.useState(CATEGORIES);
+  const onSelectCategory = (category) => {
+    navigation.navigate("Products", {
+      categoryId: category.id,
+      categoryTitle: category.text,
+    });
+  };
 
   const renderElement = ({ item }) => {
-    return <CategoryItem category={item} onPress={setCategorySelected}/>;
+    return <CategoryItem category={item} onPress={onSelectCategory} />;
   };
 
   const filteredElements = (toFilterText) => {

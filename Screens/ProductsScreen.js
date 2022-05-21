@@ -7,14 +7,23 @@ import Searcher from "../Components/Searcher";
 import ProductItem from "../Components/List/ProductItem";
 
 const ProductsScreen = (props) => {
-  
-  const {setProductSelected, category, placeholder, onBack} = props;
+  const {
+    placeholder,
+    navigation,
+    route
+  } = props;
+
+  const {categoryId} = route.params;
 
   const [productsInCategory, setProductsInCategory] = React.useState([]);
   const [filteredProducts, setFilteredProducts] = React.useState([]);
 
+  const onSelectProduct = (product) => {
+    navigation.navigate("Detail", {productId: product.id, productTitle: product.title});
+  };
+
   React.useEffect(() => {
-    const filtered = PRODUCTS.filter(p => p.category_id === category.id);
+    const filtered = PRODUCTS.filter((p) => p.category_id === categoryId);
     setProductsInCategory(filtered);
   }, []);
 
@@ -23,7 +32,7 @@ const ProductsScreen = (props) => {
   }, [productsInCategory]);
 
   const renderElement = ({ item }) => {
-    return <ProductItem product={item} onPress={setProductSelected}/>;
+    return <ProductItem product={item} onPress={onSelectProduct} />;
   };
 
   const filteredElements = (toFilterText) => {
@@ -39,7 +48,7 @@ const ProductsScreen = (props) => {
   };
 
   return (
-    <Screen title={stringTable.APP_TITLE} onBack={onBack}>
+    <Screen title={stringTable.APP_TITLE}>
       <Searcher
         data={filteredProducts}
         columns={2}

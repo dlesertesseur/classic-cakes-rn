@@ -1,16 +1,15 @@
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import { colors } from "../Styles/Colors";
-import AppHeader from "../Components/HeaderApp";
 import React from "react";
 
 const Screen = (props) => {
-  const { title, children, onBack = null } = props;
+  const { 
+    children, 
+    onBack = null } = props;
+
   return (
     <View style={styles.container}>
-      <AppHeader title={title} />
-
       <View style={styles.body}>{children}</View>
-
       <View style={styles.controls}>
         {onBack !== null ? (
           <TouchableOpacity style={styles.button} onPress={onBack}>
