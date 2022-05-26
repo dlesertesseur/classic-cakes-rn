@@ -1,16 +1,21 @@
 import React from "react";
-import CategoriesScreen from "../../Screens/CategoriesScreen";
-import ProductsScreen from "../../Screens/ProductsScreen";
-import ProductDetailScreen from "../../Screens/ProductDetailScreen";
-import { NavigationContainer } from "@react-navigation/native";
+import ProductsScreen from "../../../Screens/ProductsScreen";
+import CategoriesScreen from "../../../Screens/CategoriesScreen";
+import ProductDetailScreen from "../../../Screens/ProductDetailScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { colors } from "../../Styles/Colors";
+import { colors } from "../../../Styles/Colors";
+import { useSelector } from "react-redux";
 
 const Stack = createNativeStackNavigator();
 
-const MainNavigator = () => {
+const ShopNavigator = () => {
+
+  const {categorySelected} = useSelector(state => state.categories.value);
+  const {productSelected} = useSelector(state => state.products.value);
+
+  console.log("productSelected ->" + JSON.stringify(productSelected));
+
   return (
-    <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Categories">
         <Stack.Screen 
@@ -24,18 +29,17 @@ const MainNavigator = () => {
         <Stack.Screen 
           name="Products" 
           component={ProductsScreen} 
-          options={({route}) => ({ title: route.params.categoryTitle,
+          options={({route}) => ({ title: categorySelected.text,
             headerStyle: {backgroundColor: colors.secondary}})}/>
 
         <Stack.Screen
           name="Detail" 
           component={ProductDetailScreen}
-          options={({route}) => ({ title: route.params.productTitle,
+          options={({route}) => ({ title: productSelected.title,
             headerStyle: {backgroundColor: colors.primaryDarker}})}
           />
       </Stack.Navigator>
-    </NavigationContainer>
   );
 };
 
-export default MainNavigator;
+export default ShopNavigator;

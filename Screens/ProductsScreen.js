@@ -1,35 +1,31 @@
-import { StyleSheet } from "react-native";
-import { stringTable } from "../Styles/StringTable";
-import { PRODUCTS } from "../Data/data";
 import React from "react";
 import Screen from "../Screens/Screen";
 import Searcher from "../Components/Searcher";
 import ProductItem from "../Components/List/ProductItem";
+import { StyleSheet } from "react-native";
+import { stringTable } from "../Styles/StringTable";
+import { useSelector, useDispatch } from "react-redux";
+import { setProductSelected } from '../Features/Products'
 
 const ProductsScreen = (props) => {
   const {
     placeholder,
-    navigation,
-    route
+    navigation
   } = props;
 
-  const {categoryId} = route.params;
-
-  const [productsInCategory, setProductsInCategory] = React.useState([]);
+  const {productsByCategory} = useSelector(state => state.products.value)
   const [filteredProducts, setFilteredProducts] = React.useState([]);
 
+  const dispatch = useDispatch();
+
   const onSelectProduct = (product) => {
-    navigation.navigate("Detail", {productId: product.id, productTitle: product.title});
+    dispatch(setProductSelected(product.id));
+    navigation.navigate("Detail");
   };
 
   React.useEffect(() => {
-    const filtered = PRODUCTS.filter((p) => p.category_id === categoryId);
-    setProductsInCategory(filtered);
-  }, []);
-
-  React.useEffect(() => {
-    setFilteredProducts(productsInCategory);
-  }, [productsInCategory]);
+    setFilteredProducts(productsByCategory);
+  }, [productsByCategory]);
 
   const renderElement = ({ item }) => {
     return <ProductItem product={item} onPress={onSelectProduct} />;
@@ -37,13 +33,13 @@ const ProductsScreen = (props) => {
 
   const filteredElements = (toFilterText) => {
     if (toFilterText !== null) {
-      const ret = productsInCategory.filter((element) => {
+      const ret = productsByCategory.filter((element) => {
         const sz = element.title.toLowerCase();
         return sz.includes(toFilterText.toLowerCase());
       });
       setFilteredProducts(ret);
     } else {
-      setFilteredProducts(productsInCategory);
+      setFilteredProducts(productsByCategory);
     }
   };
 

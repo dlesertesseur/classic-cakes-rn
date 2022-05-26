@@ -1,6 +1,5 @@
 import { StyleSheet, FlatList, View, Text } from "react-native";
 import React from "react";
-import { colors } from "../../Styles/Colors";
 import { stringTable } from "../../Styles/StringTable";
 
 const index = (props) => {

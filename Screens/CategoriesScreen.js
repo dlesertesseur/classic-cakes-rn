@@ -1,23 +1,26 @@
-import { StyleSheet, View } from "react-native";
-import { colors } from "../Styles/Colors";
-import { stringTable } from "../Styles/StringTable";
-import { CATEGORIES } from "../Data/data";
-import React from "react";
+import React, { useState } from "react";
 import Screen from "../Screens/Screen";
 import Searcher from "../Components/Searcher";
 import CategoryItem from "../Components/List/CategoryItem";
+import { StyleSheet } from "react-native";
+import { stringTable } from "../Styles/StringTable";
+import { useSelector, useDispatch } from "react-redux";
+import { selectCategory } from '../Features/Categories'
+import { setProductsByCategory } from '../Features/Products'
 
 const CategoriesScreen = (props) => {
   const { placeholder, navigation } = props;
+  const {categories} = useSelector(state => state.categories.value)
 
-  const [filteredCategories, setSetFilteredCategories] =
-    React.useState(CATEGORIES);
+  const [filteredCategories, setSetFilteredCategories] = useState(categories);
+  const dispatch = useDispatch();
 
   const onSelectCategory = (category) => {
-    navigation.navigate("Products", {
-      categoryId: category.id,
-      categoryTitle: category.text,
-    });
+
+    dispatch(setProductsByCategory(category.id))
+    dispatch(selectCategory(category.id));
+
+    navigation.navigate("Products");
   };
 
   const renderElement = ({ item }) => {
@@ -26,13 +29,13 @@ const CategoriesScreen = (props) => {
 
   const filteredElements = (toFilterText) => {
     if (toFilterText !== null) {
-      const ret = CATEGORIES.filter((element) => {
+      const ret = categories.filter((element) => {
         const sz = element.text.toLowerCase();
         return sz.includes(toFilterText.toLowerCase());
       });
       setSetFilteredCategories(ret);
     } else {
-      setSetFilteredCategories(CATEGORIES);
+      setSetFilteredCategories(categories);
     }
   };
 

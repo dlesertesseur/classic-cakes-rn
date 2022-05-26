@@ -1,6 +1,8 @@
+import MainNavigator from "./Navigation";
+import store from './Store';
 import { SafeAreaView, ActivityIndicator, StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
-import MainNavigator from "./Navigation/shop";
+import { Provider } from 'react-redux'
 
 export default function App() {
 
@@ -13,9 +15,11 @@ export default function App() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <MainNavigator />
-    </SafeAreaView>
+    <Provider store={store}>
+      <SafeAreaView style={styles.container}>
+        <MainNavigator />
+      </SafeAreaView>
+    </Provider>
   );
 }
 

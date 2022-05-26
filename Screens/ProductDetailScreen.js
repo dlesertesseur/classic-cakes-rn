@@ -4,27 +4,20 @@ import PropertyRow from "../Components/PropertyRow";
 import { StyleSheet, View, Image, ActivityIndicator } from "react-native";
 import { useWindowDimensions } from "react-native";
 import { stringTable } from "../Styles/StringTable";
-import { PRODUCTS } from "../Data/data";
+import { useSelector } from "react-redux";
 
 const ProductDetailScreen = (props) => {
   const { navigation, route } = props;
 
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const imgW = width - 20;
   const imgH = imgW;
 
-  const { productId } = route.params;
-
-  const [product, setProduct] = useState(null);
-
-  useEffect(() => {
-    const prod = PRODUCTS.find((p) => p.id === productId);
-    setProduct(prod);
-  }, [productId]);
+  const {productSelected} = useSelector(state => state.products.value);
 
   return (
     <Screen title={stringTable.APP_TITLE}>
-      {product != null ? (
+      {productSelected != null ? (
         <>
           <View style={styles.container}>
             <Image
@@ -34,11 +27,11 @@ const ProductDetailScreen = (props) => {
           </View>
           <View style={styles.properties}>
             <PropertyRow
-              value={product.title}
+              value={productSelected.title}
               extraStyle={{ fontSize: 22, fontWeight: "bold" }}
             />
-            <PropertyRow value={product.description} />
-            <PropertyRow label="Precio $" value={product.price} />
+            <PropertyRow value={productSelected.description} />
+            <PropertyRow label="Precio $" value={productSelected.price} />
           </View>
         </>
       ) : (

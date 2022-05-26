@@ -3,4 +3,6 @@ export const colors = {
     primaryDarker: "#DAE5D0",
     primaryLighter: "#FEFBE7",
     secondary: "#A0BCC2",
+    confirmButtom:"#FF5D5D",
+    confirmPanel:"#B8F1B0",
 }
