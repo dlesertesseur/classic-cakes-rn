@@ -11,17 +11,18 @@ import {
 } from "react-native";
 
 import { stringTable } from "../Styles/StringTable";
-import { PRODUCTS_CART } from "../Data/data";
 import { useState } from "react";
 import { colors } from "../Styles/Colors";
+import { useSelector, useDispatch } from "react-redux";
 
 const CartScreen = (props) => {
   const { navigation, route } = props;
 
   const { height } = useWindowDimensions();
 
+  const {products} = useSelector(state => state.cart.value)
+
   const [totalToPay, setTotalToPay] = useState(4400.00);
-  const [data, setData] = useState(PRODUCTS_CART);
 
   const onDelete = () => {
     console.log("CartScreen::onDelete");
@@ -37,11 +38,11 @@ const CartScreen = (props) => {
 
   return (
     <Screen>
-      {data !== null && data.length > 0 ? (
+      {products !== null && products.length > 0 ? (
         <View style={{ ...styles.container, height: height - 140 }}>
           <FlatList
             style={styles.list}
-            data={data}
+            data={products}
             renderItem={renderElement}
             keyExtractor={(item) => item.id}
           />

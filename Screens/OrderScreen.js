@@ -3,17 +3,18 @@ import OrderItem from "../Components/OrderItem";
 import { StyleSheet, View, TouchableOpacity, Text} from "react-native";
 import { useWindowDimensions, FlatList } from "react-native";
 import { stringTable } from "../Styles/StringTable";
-import { ORDERS } from "../Data/data";
-import { useState } from "react";
 import { colors } from "../Styles/Colors";
+import { useSelector, useDispatch } from "react-redux";
+import { setOrderSelected } from '../Features/Orders' 
 
 const OrderScreen = (props) => {
   const { navigation, route } = props;
-  const { height, width } = useWindowDimensions();
-  
-  const [data, setData] = useState(ORDERS);
+  const { height } = useWindowDimensions();
+
+  const {orders} = useSelector(state => state.orders.value)
 
   const onPress = (order) => {
+    dispatch(setOrderSelected(order.id));
     console.log("OrderScreen::onPress")
   }
   const onDelete = (order) => {
@@ -30,13 +31,12 @@ const OrderScreen = (props) => {
   
   return (
     <Screen>
-
-      {data !== null && data.length > 0 ? (
+      {orders !== null && orders.length > 0 ? (
         <View style={{...styles.container, height: height - 170}}>
           <View style={styles.topPanel}>
             <FlatList
               style={styles.list}
-              data={data}
+              data={orders}
               renderItem={renderElement}
               keyExtractor={(item) => item.id}
             />

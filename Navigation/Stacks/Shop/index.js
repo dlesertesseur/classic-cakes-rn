@@ -13,8 +13,6 @@ const ShopNavigator = () => {
   const {categorySelected} = useSelector(state => state.categories.value);
   const {productSelected} = useSelector(state => state.products.value);
 
-  console.log("productSelected ->" + JSON.stringify(productSelected));
-
   return (
       <Stack.Navigator
         initialRouteName="Categories">
