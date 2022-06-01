@@ -14,11 +14,14 @@ import { stringTable } from "../Styles/StringTable";
 import { useState } from "react";
 import { colors } from "../Styles/Colors";
 import { useSelector, useDispatch } from "react-redux";
+import { confirmPurchase } from "../Features/Cart";
 
 const CartScreen = (props) => {
   const { navigation, route } = props;
 
   const { height } = useWindowDimensions();
+
+  const dispatch = useDispatch();
 
   const {products} = useSelector(state => state.cart.value)
 
@@ -29,7 +32,7 @@ const CartScreen = (props) => {
   };
 
   const onPress = () => {
-    console.log("CartScreen::Confirmar");
+    dispatch(confirmPurchase(products));
   };
 
   const renderElement = ({ item }) => {

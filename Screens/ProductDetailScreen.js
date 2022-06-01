@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Screen from "./Screen";
 import PropertyRow from "../Components/PropertyRow";
-import { StyleSheet, View, Image, ActivityIndicator } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity, Text, ActivityIndicator } from "react-native";
 import { useWindowDimensions } from "react-native";
 import { stringTable } from "../Styles/StringTable";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux'
+import { addItem } from '../Features/Cart'
+import { colors } from "../Styles/Colors";
 
 const ProductDetailScreen = (props) => {
   const { navigation, route } = props;
@@ -13,7 +15,13 @@ const ProductDetailScreen = (props) => {
   const imgW = width - 20;
   const imgH = imgW;
 
+  const dispatch = useDispatch();
   const {productSelected} = useSelector(state => state.products.value);
+
+  const addProduct = () => {
+    dispatch(addItem(productSelected));
+    navigation.navigate("Products");
+  }
 
   return (
     <Screen title={stringTable.APP_TITLE}>
@@ -33,6 +41,14 @@ const ProductDetailScreen = (props) => {
             <PropertyRow value={productSelected.description} />
             <PropertyRow label="Precio $" value={productSelected.price} />
           </View>
+
+          <View style={styles.buttons}>
+            <TouchableOpacity style={styles.buttonAdd} onPress={addProduct}>
+              <Text style={styles.buttonAddTitle}>
+                {stringTable.LB_ADD_PRODUCT}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </>
       ) : (
         <>
@@ -51,6 +67,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
   },
+
   image: {
     borderRadius: 4,
     overflow: "hidden",
@@ -61,5 +78,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  buttons: {
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
+  },
+
+  buttonAdd: {
+    width: "100%",
+    height: 40,
+    borderRadius: 4,
+    backgroundColor: colors.secondary,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+
   title: { fontSize: 20, fontWeight: "bold" },
+  buttonAddTitle: { fontSize: 16, fontWeight: "bold" },
 });

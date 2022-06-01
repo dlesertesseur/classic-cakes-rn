@@ -1,38 +1,44 @@
 import Screen from "./Screen";
 import OrderItem from "../Components/OrderItem";
-import { StyleSheet, View, TouchableOpacity, Text} from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { useWindowDimensions, FlatList } from "react-native";
 import { stringTable } from "../Styles/StringTable";
 import { colors } from "../Styles/Colors";
 import { useSelector, useDispatch } from "react-redux";
-import { setOrderSelected } from '../Features/Orders' 
+import { setOrderSelected, getOrders } from "../Features/Orders";
+import { useEffect } from "react";
 
 const OrderScreen = (props) => {
   const { navigation, route } = props;
   const { height } = useWindowDimensions();
 
-  const {orders} = useSelector(state => state.orders.value)
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getOrders());
+  }, []);
+
+  const { orders } = useSelector((state) => state.orders.value);
 
   const onPress = (order) => {
     dispatch(setOrderSelected(order.id));
-    console.log("OrderScreen::onPress")
-  }
-  const onDelete = (order) => {
-    console.log("OrderScreen::onDelete")
-  }
+    console.log("OrderScreen::onPress");
+  };
 
-  const renderElement = ({item}) => {
+  const onDelete = (order) => {
+    console.log("OrderScreen::onDelete");
+  };
+
+  const renderElement = ({ item }) => {
     return (
       <OrderItem order={item} onPress={onPress} onDelete={onDelete}></OrderItem>
-    )
-  }
+    );
+  };
 
-  //const localOnPress = () => {};
-  
   return (
     <Screen>
       {orders !== null && orders.length > 0 ? (
-        <View style={{...styles.container, height: height - 170}}>
+        <View style={{ ...styles.container, height: height - 170 }}>
           <View style={styles.topPanel}>
             <FlatList
               style={styles.list}
@@ -47,7 +53,6 @@ const OrderScreen = (props) => {
           <Text style={styles.text}>{stringTable.NO_DATA}</Text>
         </View>
       )}
-
     </Screen>
   );
 };

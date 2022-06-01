@@ -4,5 +4,6 @@ export const stringTable = {
     BT_CONFIRM: 'Confirmar',
     LB_TOTAL: 'Total: ',
     LB_MONEY_SIGN: '$',
-    LB_ORDER_DATE: 'Fecha: '
+    LB_ORDER_DATE: 'Fecha: ',
+    LB_ADD_PRODUCT: 'ADD PRODUCT'
 };
