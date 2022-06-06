@@ -16,7 +16,6 @@ export const getOrders = createAsyncThunk(
     try {
       const res = await fetch(`${DDBB_URL}orders.json`);
       const data = Object.values(await res.json());
-      console.log(data);
       return data;
     } catch (error) {
       return rejectWithValue("Error: no es posible obtener las ordenes");

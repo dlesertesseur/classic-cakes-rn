@@ -1,10 +1,10 @@
 import Screen from "./Screen";
 import OrderItem from "../Components/OrderItem";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, ActivityIndicator } from "react-native";
 import { useWindowDimensions, FlatList } from "react-native";
 import { stringTable } from "../Styles/StringTable";
 import { colors } from "../Styles/Colors";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch} from "react-redux";
 import { setOrderSelected, getOrders } from "../Features/Orders";
 import { useEffect } from "react";
 
@@ -14,11 +14,11 @@ const OrderScreen = (props) => {
 
   const dispatch = useDispatch();
 
+  const { orders, loading, error } = useSelector((state) => state.orders.value);
+
   useEffect(() => {
     dispatch(getOrders());
   }, []);
-
-  const { orders } = useSelector((state) => state.orders.value);
 
   const onPress = (order) => {
     dispatch(setOrderSelected(order.id));
@@ -37,21 +37,33 @@ const OrderScreen = (props) => {
 
   return (
     <Screen>
-      {orders !== null && orders.length > 0 ? (
-        <View style={{ ...styles.container, height: height - 170 }}>
-          <View style={styles.topPanel}>
-            <FlatList
-              style={styles.list}
-              data={orders}
-              renderItem={renderElement}
-              keyExtractor={(item) => item.id}
-            />
-          </View>
+      {loading ? (
+        <View style={styles.panel}>
+          <ActivityIndicator
+            style={styles.indicator}
+            size="large"
+            color={colors.activityIndicator}
+          />
         </View>
       ) : (
-        <View style={styles.panel}>
-          <Text style={styles.text}>{stringTable.NO_DATA}</Text>
-        </View>
+        <>
+          {orders !== null && orders.length > 0 ? (
+            <View style={{ ...styles.container, height: height - 170 }}>
+              <View style={styles.topPanel}>
+                <FlatList
+                  style={styles.list}
+                  data={orders}
+                  renderItem={renderElement}
+                  keyExtractor={(item) => item.id}
+                />
+              </View>
+            </View>
+          ) : (
+            <View style={styles.panel}>
+              <Text style={styles.textNoData}>{stringTable.NO_DATA}</Text>
+            </View>
+          )}
+        </>
       )}
     </Screen>
   );
@@ -82,4 +94,16 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: "#000000",
   },
+
+  panel: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  textNoData: {
+    fontSize: 16,
+  },
+
+  indicator: {},
 });

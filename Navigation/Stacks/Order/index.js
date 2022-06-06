@@ -1,20 +1,21 @@
 import OrderScreen from '../../../Screens/OrderScreen';
 import React from 'react'
+import CustomHeader from '../../../Components/CustomHeader';
 import { StyleSheet} from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { colors } from '../../../Styles/Colors';
+import { stringTable } from '../../../Styles/StringTable';
 
 const Stack = createNativeStackNavigator();
 
 const OrderStack = () => {
   return (
-    <Stack.Navigator initialRouteName="">
+    <Stack.Navigator initialRouteName="Orders">
         <Stack.Screen
-          name= "Order"
+          name="Orders"
           component={OrderScreen}
           options={{
-            title:"Ordenes",
-            headerStyle: {backgroundColor: colors.primaryLighter}}}
+            header: () => <CustomHeader title = {stringTable.SCREEN_ORDERS}/>,
+          }}
         >
         </Stack.Screen> 
     

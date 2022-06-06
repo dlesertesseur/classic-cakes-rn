@@ -1,7 +1,7 @@
 import React from 'react'
 import ShopNavigator from '../../Stacks/Shop'
 import CartStack from '../../Stacks/Cart';
-import OrderStack from '../../Stacks/OrderStack';
+import OrderStack from '../../Stacks/Order';
 import { StyleSheet, Text, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { MaterialIcons } from '@expo/vector-icons';

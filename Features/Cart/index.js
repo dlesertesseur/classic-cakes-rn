@@ -10,6 +10,12 @@ const initialState = {
   },
 };
 
+const calculateTotal = (products) => {
+  let total = 0; 
+  products.map(product => (total += (product.price * product.quantity)));
+  return(total);
+}
+
 export const confirmPurchase = createAsyncThunk(
   "cart/confirm",
   async (items, asyncThunk) => {
@@ -17,8 +23,10 @@ export const confirmPurchase = createAsyncThunk(
       const res = await fetch(`${DDBB_URL}orders.json`, {
         method: "POST",
         body: JSON.stringify({
+          id: new Date().getTime(),
           date: new Date().toLocaleDateString(),
           items: items,
+          total: calculateTotal(items)
         }),
       });
       const data = res.json();
@@ -43,15 +51,18 @@ export const cartSlice = createSlice({
           return item;
         });
       } else {
-        /*        
-        const producto = PRODUCTS.find(
-          (producto) => producto.id === action.payload.id
-        );
-        */
-        state.value.products.push({ ...action.payload, quantity: 1 });
+        state.value.products.push({...action.payload, quantity: 1 });
       }
     },
-    removeItem: () => {},
+    
+    removeItem: (state, action) => {
+      const filteredItems = state.value.products.filter(item => item.id !== action.payload.id);
+      state.value.products = filteredItems;
+    },
+
+    clearData: (state, action) => {
+      state.value.products = [];
+    },
   },
 
   extraReducers: {
@@ -69,6 +80,6 @@ export const cartSlice = createSlice({
   },
 });
 
-export const {addItem, removeItem} = cartSlice.actions;
+export const {addItem, removeItem, clearData} = cartSlice.actions;
 
 export default cartSlice.reducer;
