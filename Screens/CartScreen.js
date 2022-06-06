@@ -66,7 +66,7 @@ const CartScreen = (props) => {
   return (
     <Screen>
       {products !== null && products.length > 0 ? (
-        <View style={{ ...styles.container, height: height - 140 }}>
+        <View style={{ ...styles.container, height: height - 160 }}>
           <FlatList
             style={styles.list}
             data={products}

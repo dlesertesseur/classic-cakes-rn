@@ -11,9 +11,13 @@ const MainNavigator = () => {
 
   useEffect(() => {
     if (user) {
-      setUserLogged(user.token.trim() != "");
+      if (user.token) {
+        setUserLogged(user.token.length > 0);
+      } else {
+        setUserLogged(false);
+      }
     } else {
-      setUserLogged(fase);
+      setUserLogged(false);
     }
   }, [user]);
 
