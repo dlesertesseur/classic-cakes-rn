@@ -1,13 +1,17 @@
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import { colors } from "../Styles/Colors";
 
-const TextInputAuth = (props) => {
-  const { label, password = false, value, setValue, error, focusRef } = props;
+const CustomTextInput = (props) => {
+  const { label, password = false, value, setValue, error, focusRef, aditionalStyle={} } = props;
 
   return (
+
     <View style={styles.container}>
+
+      {console.log("aditionalStyle: " + JSON.stringify(aditionalStyle))}
+
       <TextInput
-        style={styles.inputText}
+        style={[styles.inputText, aditionalStyle]}
         placeholder={label}
         secureTextEntry={password}
         value={value}
@@ -23,7 +27,7 @@ const TextInputAuth = (props) => {
   );
 };
 
-export default TextInputAuth;
+export default CustomTextInput;
 
 const styles = StyleSheet.create({
   container: {

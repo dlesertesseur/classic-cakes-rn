@@ -5,34 +5,36 @@ import { useWindowDimensions, FlatList } from "react-native";
 import { stringTable } from "../Styles/StringTable";
 import { colors } from "../Styles/Colors";
 import { useSelector, useDispatch} from "react-redux";
-import { setOrderSelected, getOrdersByEmail } from "../Features/Orders";
 import { useEffect } from "react";
+import LocationItem from "../Components/LocationItem";
+import { setLocationSelected } from "../Features/Locations";
 
-const LocationScreen = (props) => {
+const LocationsScreen = (props) => {
   const { navigation, route } = props;
   const { height } = useWindowDimensions();
 
   const dispatch = useDispatch();
 
-  const { orders, loading} = useSelector((state) => state.orders.value);
   const { user } = useSelector((state) => state.auth.value);
+  const { locations, loading } = useSelector((state) => state.locations.value);
+
 
 /*   useEffect(() => {
     dispatch(getOrdersByEmail({email: user.email}));
   }, []); */
 
-  const onPress = (order) => {
-    dispatch(setOrderSelected(order.id));
-    console.log("OrderScreen::onPress");
+  const onPress = (location) => {
+    dispatch(setLocationSelected(location.id));
+    console.log("LocationsScreen::onPress");
   };
 
   const onDelete = (order) => {
-    console.log("OrderScreen::onDelete");
+    console.log("LocationsScreen::onDelete");
   };
 
   const renderElement = ({ item }) => {
     return (
-      <OrderItem order={item} onPress={onPress} onDelete={onDelete}></OrderItem>
+      <LocationItem location={item} onPress={onPress} onDelete={onDelete}></LocationItem>
     );
   };
 
@@ -48,12 +50,12 @@ const LocationScreen = (props) => {
         </View>
       ) : (
         <>
-          {orders !== null && orders.length > 0 ? (
+          {locations !== null && locations.length > 0 ? (
             <View style={{ ...styles.container, height: height - 170 }}>
               <View style={styles.topPanel}>
                 <FlatList
                   style={styles.list}
-                  data={orders}
+                  data={locations}
                   renderItem={renderElement}
                   keyExtractor={(item) => item.id}
                 />
@@ -70,7 +72,7 @@ const LocationScreen = (props) => {
   );
 };
 
-export default LocationScreen;
+export default LocationsScreen;
 
 const styles = StyleSheet.create({
   container: {

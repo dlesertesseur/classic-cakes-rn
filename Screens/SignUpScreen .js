@@ -1,5 +1,5 @@
 import Screen from "./Screen";
-import TextInputAuth from "../Components/TextInputAuth";
+import CustomTextInput from "../Components/CustomTextInput";
 import React, { useState, useRef, useEffect } from "react";
 import {
   StyleSheet,
@@ -75,21 +75,21 @@ const SignUpScreen = ({ navigation }) => {
   return (
     <Screen>
       <View style={styles.container}>
-        <TextInputAuth
+        <CustomTextInput
           label={stringTable.LB_EMAIL}
           value={email}
           setValue={setEmail}
           error={emailError}
           focusRef={focusRef}
         />
-        <TextInputAuth
+        <CustomTextInput
           label={stringTable.LB_PASSWORD}
           password={true}
           value={password}
           setValue={setPassword}
           error={passwordError}
         />
-        <TextInputAuth
+        <CustomTextInput
           label={stringTable.LB_CONFIRM_PASSWORD}
           password={true}
           value={confirmPassword}

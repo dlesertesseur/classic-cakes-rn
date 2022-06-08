@@ -5,7 +5,11 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import { resetAuthData } from "../Features/Auth";
 
-const CustomHeader = ({ title = "< TITLE >", navigation = null }) => {
+const CustomHeader = ({
+  title = "< TITLE >",
+  navigation = null,
+  logoutButton = true,
+}) => {
   const dispatch = useDispatch();
 
   const onLogout = () => {
@@ -29,9 +33,13 @@ const CustomHeader = ({ title = "< TITLE >", navigation = null }) => {
 
         <Text style={styles.title}>{title}</Text>
 
-        <TouchableOpacity style={styles.button} onPress={onLogout}>
-          <MaterialIcons name="logout" size={24} color="black" />
-        </TouchableOpacity>
+        {logoutButton ? (
+          <TouchableOpacity style={styles.button} onPress={onLogout}>
+            <MaterialIcons name="logout" size={24} color="black" />
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.button}></View>
+        )}
       </View>
     </View>
   );
@@ -42,7 +50,7 @@ export default CustomHeader;
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    paddingHorizontal:10,
+    paddingHorizontal: 10,
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: colors.primaryLighter,

@@ -3,14 +3,13 @@ import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import { colors } from "../Styles/Colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
-//import { resetAuthData } from "../Features/Auth";
 
-const CustomHeader = ({ title = "< TITLE >" }) => {
+const LocationHeader = ({ title = "< TITLE >", navigation }) => {
   const dispatch = useDispatch();
 
-  const onCamera = () => {
-    console.log("onCamera()");
-  };
+  const onAdd = () => {
+    navigation.navigate("NewLocation");
+  }
 
   return (
     <View style={styles.container}>
@@ -19,15 +18,15 @@ const CustomHeader = ({ title = "< TITLE >" }) => {
 
         <Text style={styles.title}>{title}</Text>
 
-        <TouchableOpacity style={styles.button} onPress={onCamera}>
-          <MaterialIcons name="photo-camera" size={24} color="black" />
+        <TouchableOpacity style={styles.button} onPress={onAdd}>
+          <MaterialIcons name="add-circle" size={24} color="black" />
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-export default CustomHeader;
+export default LocationHeader;
 
 const styles = StyleSheet.create({
   container: {

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Screen from "./Screen";
-import TextInputAuth from "../Components/TextInputAuth";
+import CustomTextInput from "../Components/CustomTextInput";
 import { getErrorMessage, stringTable } from "../Styles/StringTable";
 import { useDispatch, useSelector } from "react-redux";
 import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from "react-native";
@@ -12,12 +12,12 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const focusRef = useRef(null);
 
   const dispatch = useDispatch();
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
 
   const { loading, error } = useSelector((state) => state.auth.value);
 
@@ -59,14 +59,14 @@ const LoginScreen = ({ navigation }) => {
   return (
     <Screen>
       <View style={styles.container}>
-        <TextInputAuth
+        <CustomTextInput
           label={stringTable.LB_EMAIL}
           value={email}
           setValue={setEmail}
           error={emailError}
           focusRef={focusRef}
         />
-        <TextInputAuth
+        <CustomTextInput
           label={stringTable.LB_PASSWORD}
           password={true}
           value={password}
