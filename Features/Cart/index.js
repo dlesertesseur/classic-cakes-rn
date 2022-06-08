@@ -18,16 +18,23 @@ const calculateTotal = (products) => {
 
 export const confirmPurchase = createAsyncThunk(
   "cart/confirm",
-  async (items, asyncThunk) => {
+  async ({email, items}, asyncThunk) => {
     try {
+      const body = JSON.stringify({
+        id: new Date().getTime(),
+        email: email,
+        date: new Date().toLocaleDateString(),
+        items: items,
+        total: calculateTotal(items)
+      });
+
+      console.log("email:" + email);
+      console.log("items:" + JSON.stringify(items));
+      console.log("body:" + body);
+
       const res = await fetch(`${DDBB_URL}orders.json`, {
         method: "POST",
-        body: JSON.stringify({
-          id: new Date().getTime(),
-          date: new Date().toLocaleDateString(),
-          items: items,
-          total: calculateTotal(items)
-        }),
+        body: body,
       });
       const data = res.json();
       return data;

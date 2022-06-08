@@ -8,7 +8,7 @@ import { useSelector, useDispatch} from "react-redux";
 import { setOrderSelected, getOrdersByEmail } from "../Features/Orders";
 import { useEffect } from "react";
 
-const OrderScreen = (props) => {
+const LocationScreen = (props) => {
   const { navigation, route } = props;
   const { height } = useWindowDimensions();
 
@@ -17,9 +17,9 @@ const OrderScreen = (props) => {
   const { orders, loading} = useSelector((state) => state.orders.value);
   const { user } = useSelector((state) => state.auth.value);
 
-  useEffect(() => {
+/*   useEffect(() => {
     dispatch(getOrdersByEmail({email: user.email}));
-  }, []);
+  }, []); */
 
   const onPress = (order) => {
     dispatch(setOrderSelected(order.id));
@@ -70,7 +70,7 @@ const OrderScreen = (props) => {
   );
 };
 
-export default OrderScreen;
+export default LocationScreen;
 
 const styles = StyleSheet.create({
   container: {

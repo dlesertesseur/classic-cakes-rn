@@ -6,6 +6,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { MaterialIcons } from '@expo/vector-icons';
 import { colors } from '../../../Styles/Colors';
+import LocationStack from '../../Stacks/Location';
 
 const BottomTabs = createBottomTabNavigator()
 
@@ -56,6 +57,20 @@ const TabNavigatorLogged = () => {
               <View style={styles.item}>
                 <MaterialIcons name="view-list" size={24} color="black" />
                 <Text>Orders</Text>
+              </View>
+            )
+          }
+        }}
+      />
+      <BottomTabs.Screen
+        name="LocationTab"
+        component={LocationStack}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View style={styles.item}>
+                <MaterialIcons name="location-pin" size={24} color="black" />
+                <Text>Location</Text>
               </View>
             )
           }

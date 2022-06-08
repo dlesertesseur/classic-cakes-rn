@@ -47,6 +47,10 @@ const SignUpScreen = ({ navigation }) => {
     }
   }, [error]);
 
+  const onLogin = () => {
+    navigation.navigate("Login");
+  };
+
   const onSignUp = () => {
     const validateEmail = schemaEmail.validate({ email: email });
     const validatePassword = schemaPassword.validate({ password: password });
@@ -104,6 +108,10 @@ const SignUpScreen = ({ navigation }) => {
           ) : (
             <></>
           )}
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.btText} onPress={onLogin}>
+          <Text style={styles.text}> {stringTable.BT_ALREADY_HAVE_USER} </Text>
         </TouchableOpacity>
 
         {loginError ? (

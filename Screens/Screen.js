@@ -1,11 +1,9 @@
+import React from "react";
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import { colors } from "../Styles/Colors";
-import React from "react";
 
 const Screen = (props) => {
-  const { 
-    children, 
-    onBack = null } = props;
+  const { children, onBack = null } = props;
 
   return (
     <View style={styles.container}>

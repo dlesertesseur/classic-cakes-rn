@@ -1,8 +1,9 @@
 import MainNavigator from "./Navigation";
 import store from './Store';
-import { SafeAreaView, ActivityIndicator, StyleSheet } from "react-native";
+import { ActivityIndicator, StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
 import { Provider } from 'react-redux'
+import { SafeAreaProvider} from "react-native-safe-area-context";
 
 export default function App() {
 
@@ -16,9 +17,9 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaProvider style={styles.container}>
         <MainNavigator />
-      </SafeAreaView>
+      </SafeAreaProvider>
     </Provider>
   );
 }

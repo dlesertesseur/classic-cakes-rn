@@ -1,8 +1,11 @@
+import TabNavigatorLogged from "./Tabs/UserLogged";
+import AuthStack from "./Stacks/Auth";
 import { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { useSelector } from "react-redux";
-import TabNavigatorLogged from "./Tabs/UserLogged";
-import AuthStack from "./Stacks/Auth";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { colors } from "../Styles/Colors";
+import { StyleSheet } from "react-native";
 
 const MainNavigator = () => {
   const { user } = useSelector((state) => state.auth.value);
@@ -23,9 +26,18 @@ const MainNavigator = () => {
 
   return (
     <NavigationContainer>
-      {userLogged ? <TabNavigatorLogged /> : <AuthStack />}
+      <SafeAreaView style={styles.container}>
+        {userLogged ? <TabNavigatorLogged /> : <AuthStack />}
+      </SafeAreaView>
     </NavigationContainer>
   );
 };
 
 export default MainNavigator;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.primaryLighter,
+  },
+});

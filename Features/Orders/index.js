@@ -23,6 +23,21 @@ export const getOrders = createAsyncThunk(
   }
 );
 
+export const getOrdersByEmail = createAsyncThunk(
+  "orders/getOrdersByEmail",
+  async ({email}, asyncThunk) => {
+    try {
+      const ret = await fetch(`${DDBB_URL}orders.json`);
+      const data = Object.values(await ret.json());
+      const filter = data.filter(order => order.email === email);
+      return filter;
+    } catch (error) {
+      console.log("getOrdersByEmail ERROR: " + error);
+      return rejectWithValue("Error: no es posible obtener las ordenes");
+    }
+  }
+);
+
 export const ordersSlice = createSlice({
   name: "ordres",
   initialState: initialState,
@@ -36,6 +51,7 @@ export const ordersSlice = createSlice({
   },
 
   extraReducers: {
+    //getOrders
     [getOrders.pending]: (state) => {
       state.value.loading = true;
     },
@@ -44,6 +60,19 @@ export const ordersSlice = createSlice({
       state.value.orders = payload;
     },
     [getOrders.rejected]: (state) => {
+      state.value.loading = false;
+      state.value.error = true;
+    },
+
+    //getOrdersByEmail
+    [getOrdersByEmail.pending]: (state) => {
+      state.value.loading = true;
+    },
+    [getOrdersByEmail.fulfilled]: (state, { payload }) => {
+      state.value.loading = false;
+      state.value.orders = payload;
+    },
+    [getOrdersByEmail.rejected]: (state) => {
       state.value.loading = false;
       state.value.error = true;
     },

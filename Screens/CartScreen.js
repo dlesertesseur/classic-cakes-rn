@@ -27,6 +27,7 @@ const CartScreen = (props) => {
   const dispatch = useDispatch();
 
   const { products, error } = useSelector((state) => state.cart.value);
+  const { user } = useSelector((state) => state.auth.value);
 
   const [totalToPay, setTotalToPay] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -51,7 +52,7 @@ const CartScreen = (props) => {
   }
 
   const onConfirm = () => {
-    dispatch(confirmPurchase(products));
+    dispatch(confirmPurchase({email: user.email, items: products}));
     
     /*RECARGA LAS ORDENES AL CREAR UNA NUEVA*/
     dispatch(getOrders());
@@ -84,7 +85,7 @@ const CartScreen = (props) => {
 
           <NotificationDialog
             visible={showPurchaseConfirmedDialog}
-            text={stringTable.PURCHASE_CONFIRMED_TEXT}
+            text={error ? stringTable.PURCHASE_ERROR_TEXT : stringTable.PURCHASE_CONFIRMED_TEXT}
             type={error ? 'error' : "notification"}
             onClose={ () => {
               setShowPurchaseConfirmedDialog(false)

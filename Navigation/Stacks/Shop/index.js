@@ -19,7 +19,7 @@ const ShopNavigator = () => {
         name="Categories"
         component={CategoriesScreen}
         options={{
-          header: ({navigation}) => <CustomHeader title={stringTable.SCREEN_CATEGORIES} />,
+          header: () => <CustomHeader title={stringTable.SCREEN_CATEGORIES} />,
         }}
       />
 
