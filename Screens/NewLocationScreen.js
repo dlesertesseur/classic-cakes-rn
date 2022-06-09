@@ -1,4 +1,7 @@
 import Screen from "./Screen";
+import CustomTextInput from "../Components/CustomTextInput";
+import * as ImagePicker from 'expo-image-picker';
+import CustomButton from "../Components/CustomButton";
 import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 import { useWindowDimensions } from "react-native";
 import { stringTable } from "../Styles/StringTable";
@@ -6,20 +9,20 @@ import { colors } from "../Styles/Colors";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import { addLocation } from "../Features/Locations";
-import CustomTextInput from "../Components/CustomTextInput";
-import * as ImagePicker from 'expo-image-picker';
 
 const NewLocationScreen = (props) => {
   const { navigation, route } = props;
-  const { height } = useWindowDimensions();
-
-  const [address, setAddress] = useState("");
+ 
+  const [title, setTitle] = useState("");
   const [addressError, setAddressError] = useState("");
   const [picture, setPicture] = useState("");
+  const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
+
+  const params = route.params;
+
+  console.log(params?.address);
 
   const dispatch = useDispatch();
-
-  const { user } = useSelector((state) => state.auth.value);
 
   const focusRef = useRef(null);
 
@@ -27,16 +30,16 @@ const NewLocationScreen = (props) => {
     focusRef.current.focus();
   }, []);
 
-  /*   useEffect(() => {
-    dispatch(getOrdersByEmail({email: user.email}));
-  }, []); */
+  useEffect(() => {
+    validateConfirm();
+  },[title, picture])
 
-  const onLocation = () => {
-    console.log("NewLocationScreen::onLocation");
+  const onGetLocation = () => {
+    navigation.navigate("GetLocation");
   };
 
-  const onMap = () => {
-    console.log("NewLocationScreen::onMap");
+  const onSetLocation = () => {
+    navigation.navigate("SetLocation");
   };
 
   const getPermission = async () => {
@@ -62,27 +65,37 @@ const NewLocationScreen = (props) => {
       quality: 1,
     })
 
-    console.log("onTakePhoto: " + image.uri);
     setPicture(image.uri);
   }
   
+  const validateData = (value) => {
+    setTitle(value);
+  }
+
+  const validateConfirm = () => {
+    setConfirmButtonDisabled(!(title.length > 0 && picture.length > 0));
+  }
+
   const onConfirm = async () => {
     // const path = await renamePathAndMove(picture);
     // console.log(path);
-    if(address !== '')
-    {
-      dispatch(addLocation({title, picture, id: Date.now()}))
-      setAddress("");
-      setAddressError("");
-      setPicture("");
-    }
-    else{
-      setAddressError(stringTable.MANDATORY_FIELD);
-    }
+    dispatch(addLocation({title, picture, address:params?.address, id: Date.now()}))
+    setTitle("");
+    setAddressError("");
+    setPicture("");
   }
 
-  const onSelectPhoto = () => {
-    console.log("onSelectPhoto()");
+  const onSelectPhoto = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setPicture(result.uri);
+    }
   }
 
   return (
@@ -90,8 +103,8 @@ const NewLocationScreen = (props) => {
       <View style={styles.container}>
         <CustomTextInput
           label={stringTable.LB_ADDRESS}
-          value={address}
-          setValue={setAddress}
+          value={title}
+          setValue={validateData}
           error={addressError}
           focusRef={focusRef}
           aditionalStyle={{ backgroundColor: "#F9EBC8" }}
@@ -106,20 +119,22 @@ const NewLocationScreen = (props) => {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button} onPress={onSelectPhoto}>
-          <Text style={styles.textButton}> {"SELECCIONAR DE GALARIA"} </Text>
+          <Text style={styles.textButton}> {stringTable.BT_GALLERY} </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button} onPress={onLocation}>
+        <TouchableOpacity style={styles.button} onPress={onGetLocation}>
           <Text style={styles.textButton}> {stringTable.BT_LOCATION} </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button} onPress={onMap}>
+        <TouchableOpacity style={styles.button} onPress={onSetLocation}>
           <Text style={styles.textButton}> {stringTable.BT_MAP} </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonConfirm} onPress={onConfirm}>
-          <Text style={styles.textButton}> {stringTable.BT_CONFIRM} </Text>
-        </TouchableOpacity>
+        <CustomButton 
+          onPress={onConfirm} 
+          disabled ={confirmButtonDisabled}
+          text = {stringTable.BT_CONFIRM}
+          color = {colors.confirmButtom}/>
       </View>
     </Screen>
   );

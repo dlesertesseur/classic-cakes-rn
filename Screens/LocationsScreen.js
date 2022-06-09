@@ -5,7 +5,6 @@ import { useWindowDimensions, FlatList } from "react-native";
 import { stringTable } from "../Styles/StringTable";
 import { colors } from "../Styles/Colors";
 import { useSelector, useDispatch} from "react-redux";
-import { useEffect } from "react";
 import LocationItem from "../Components/LocationItem";
 import { setLocationSelected } from "../Features/Locations";
 
@@ -15,13 +14,7 @@ const LocationsScreen = (props) => {
 
   const dispatch = useDispatch();
 
-  const { user } = useSelector((state) => state.auth.value);
   const { locations, loading } = useSelector((state) => state.locations.value);
-
-
-/*   useEffect(() => {
-    dispatch(getOrdersByEmail({email: user.email}));
-  }, []); */
 
   const onPress = (location) => {
     dispatch(setLocationSelected(location.id));

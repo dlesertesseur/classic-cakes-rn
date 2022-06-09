@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { DDBB_URL } from "../../Constants/firebase";
+import { getMapUrl, getreverseGeoCodeUrl } from "../../Constants/mapquest";
 
 const initialState = {
   value: {
@@ -7,19 +7,43 @@ const initialState = {
     loading: false,
     error: false,
     locationSelected: null,
+    mapUrl: null,
+    address: null,
   },
 };
 
-export const getLocationsByEmail = createAsyncThunk(
-  "locations/getLocationsByEmail",
-  async ({email}, asyncThunk) => {
+export const getMap = createAsyncThunk(
+  "locations/getMap",
+  async ({ location }, asyncThunk) => {
     try {
-      const ret = await fetch(`${DDBB_URL}locations.json`);
-      const data = Object.values(await ret.json());
-      const filter = data.filter(location => location.email === email);
-      return filter;
+      console.log("getMap() -> location: " + JSON.stringify(location));
+      const url = getMapUrl + location.lat + "," + location.lng;
+      return url;
     } catch (error) {
-      console.log("getLocationsByEmail ERROR: " + error);
+      console.log("getMap ERROR: " + error);
+      return rejectWithValue("Error: no es posible obtener las ubicaciones");
+    }
+  }
+);
+
+export const getReverseGeoCodeUrl = createAsyncThunk(
+  "locations/getReverseGeoCodeUrl",
+  async ({ location }, asyncThunk) => {
+    try {
+      const url = getreverseGeoCodeUrl + location.lat + "," + location.lng;
+      const ret = await fetch(url);
+
+      const data = Object.values(await ret.json());
+      const arr0 = data[0];
+      const arr1 = data[1];
+      const arr2 = data[2];
+      const locs = arr2[0];
+      const loc1 = locs.locations[0];
+      const street = loc1.street;
+
+      return street;
+    } catch (error) {
+      console.log("getReverseGeoCodeUrl ERROR: " + error);
       return rejectWithValue("Error: no es posible obtener las ubicaciones");
     }
   }
@@ -36,21 +60,34 @@ export const locationsSlice = createSlice({
       state.value.locationSelected = element;
     },
 
-    addLocation: (state, {payload}) => {
-      state.value.locations.push(payload)
-  }
+    addLocation: (state, { payload }) => {
+      state.value.locations.push(payload);
+    },
   },
 
   extraReducers: {
-    //getLocationsByEmail
-    [getLocationsByEmail.pending]: (state) => {
+    //getMap
+    [getMap.pending]: (state) => {
       state.value.loading = true;
     },
-    [getLocationsByEmail.fulfilled]: (state, { payload }) => {
+    [getMap.fulfilled]: (state, { payload }) => {
       state.value.loading = false;
-      state.value.locations = payload;
+      state.value.mapUrl = payload;
     },
-    [getLocationsByEmail.rejected]: (state) => {
+    [getMap.rejected]: (state) => {
+      state.value.loading = false;
+      state.value.error = true;
+    },
+
+    //getReverseGeoCodeUrl
+    [getReverseGeoCodeUrl.pending]: (state) => {
+      state.value.loading = true;
+    },
+    [getReverseGeoCodeUrl.fulfilled]: (state, { payload }) => {
+      state.value.loading = false;
+      state.value.address = payload;
+    },
+    [getReverseGeoCodeUrl.rejected]: (state) => {
       state.value.loading = false;
       state.value.error = true;
     },

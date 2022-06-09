@@ -27,7 +27,13 @@ const MainNavigator = () => {
   return (
     <NavigationContainer>
       <SafeAreaView style={styles.container}>
-        {userLogged ? <TabNavigatorLogged /> : <AuthStack />}
+        
+        {/* PARA RELEASE */}
+        {/*{userLogged ? <TabNavigatorLogged /> : <AuthStack />}*/}
+
+        {/* PARA DEBUG */}
+        <TabNavigatorLogged />
+
       </SafeAreaView>
     </NavigationContainer>
   );

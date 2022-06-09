@@ -1,42 +1,22 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, Image} from "react-native";
 
 import React from "react";
 import { colors } from "../Styles/Colors";
-import { MaterialIcons } from '@expo/vector-icons'; 
-import { stringTable } from "../Styles/StringTable";
 
 const LocationItem = (props) => {
-  const { location, onPress, onDelete } = props;
-
-  const localOnDelete = () => {
-    onDelete(location);
-  };
-
-  const formatDate = (time) => {
-    const date = new Date(time);
-    return(date.toLocaleDateString());
-  }
+  const { location } = props;
 
   return (
     <View style={styles.container}>
       <View style={styles.row}>
+        <Image style={styles.image} source={location.picture} />
         <View style={styles.itemData}>
           <View style={styles.itemDataRow}>
-            <Text style={styles.textTitle}>{stringTable.LB_ORDER_DATE + formatDate(location.date)}</Text>
+            <Text style={styles.text}>{location.title}</Text>
           </View>
           <View style={styles.itemDataRow}>
-            <Text style={styles.text}>{"###############"}</Text>
+            <Text style={styles.text}>{location.address}</Text>
           </View>
-        </View >
-        <View style={styles.buttons}>
-          <TouchableOpacity style={styles.button} onPress={localOnDelete}>
-            <MaterialIcons name="highlight-remove" size={32} color="black" />
-          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -50,33 +30,34 @@ const styles = StyleSheet.create({
     height: 90,
     margin: 10,
   },
-    text: {
+
+  text: {
     fontSize: 18,
     color: "#000000",
-    fontFamily: 'LatoItalic'
+    fontFamily: "LatoItalic",
   },
-  
+
   textTitle: {
     fontSize: 22,
     color: "#000000",
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
 
   text: {
     fontSize: 18,
     color: "#000000",
-    fontFamily: 'LatoItalic'
+    fontFamily: "LatoItalic",
   },
 
   row: {
     width: "100%",
     height: "100%",
     borderRadius: 6,
-    padding: 10,
+    padding: 5,
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    backgroundColor: colors.primaryDarker
+    backgroundColor: colors.primaryDarker,
   },
 
   itemDataRow: {
@@ -84,7 +65,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    marginBottom: 5
+    marginBottom: 5,
   },
 
   itemData: {
@@ -100,8 +81,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  button: {
-    //justifyContent: "center",
-    //alignItems: "flex-start",
+  image: {
+    width: 80,
+    height: 80,
+    borderRadius: 4,
+    marginRight:5,
   },
 });

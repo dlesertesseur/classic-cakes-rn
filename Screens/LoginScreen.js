@@ -74,7 +74,7 @@ const LoginScreen = ({ navigation }) => {
           error={passwordError}
         />
         <TouchableOpacity style={styles.btLogin} onPress={onLogin}>
-          <Text style={styles.btLoingText}> {stringTable.BT_LOGIN} </Text>
+          <Text style={styles.btLoginText}> {stringTable.BT_LOGIN} </Text>
           {loading ? <ActivityIndicator style={styles.indicator} size="small" color={colors.textInputBack} /> : <></>}
         </TouchableOpacity>
         
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
 
-  btLoingText: {
+  btLoginText: {
     fontSize: 18,
     fontWeight: "bold",
     color: colors.textInputBack,

@@ -37,8 +37,9 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: colors.textInputBack,
     padding: 10,
-    color: colors.textInputColor,
+    color: "black",
     fontSize: 18,
+    fontWeight: "bold",
   },
 
   error: {
