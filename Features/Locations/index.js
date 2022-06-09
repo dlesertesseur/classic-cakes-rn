@@ -35,6 +35,10 @@ export const locationsSlice = createSlice({
       );
       state.value.locationSelected = element;
     },
+
+    addLocation: (state, {payload}) => {
+      state.value.locations.push(payload)
+  }
   },
 
   extraReducers: {
@@ -53,6 +57,6 @@ export const locationsSlice = createSlice({
   },
 });
 
-export const { setLocationSelected } = locationsSlice.actions;
+export const { setLocationSelected, addLocation } = locationsSlice.actions;
 
 export default locationsSlice.reducer;

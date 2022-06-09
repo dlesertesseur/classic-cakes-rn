@@ -23,6 +23,7 @@ export const stringTable = {
   LB_PASSWORD: "Password",
   LB_CONFIRM_PASSWORD: "Confirmar Password",
   LB_ADDRESS: "Direccion",
+
   SCREEN_ORDERS: "Ordenes",
   SCREEN_CART: "Carrito",
   SCREEN_SHOP: "Productos",
@@ -37,6 +38,7 @@ export const stringTable = {
   SIGNUP_ERROR: "Error al registrar el usuario",
   LOGIN_ERROR: "Error en el login de usuario",
   CONFIRM_PASSWORD_ERROR: "Las claves no son iguales",
+  MANDATORY_FIELD: "Campo obligatorio"
 };
 
 export function getErrorMessage(code) {

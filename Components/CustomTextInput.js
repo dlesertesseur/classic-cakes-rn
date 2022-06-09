@@ -7,9 +7,6 @@ const CustomTextInput = (props) => {
   return (
 
     <View style={styles.container}>
-
-      {console.log("aditionalStyle: " + JSON.stringify(aditionalStyle))}
-
       <TextInput
         style={[styles.inputText, aditionalStyle]}
         placeholder={label}
