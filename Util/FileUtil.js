@@ -9,6 +9,7 @@ const renamePathAndMove = async (originalPath) => {
         from: originalPath,
         to: path
     })
+
     return path;
 }
 

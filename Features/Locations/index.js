@@ -16,8 +16,10 @@ export const getMap = createAsyncThunk(
   "locations/getMap",
   async ({ location }, asyncThunk) => {
     try {
-      console.log("getMap() -> location: " + JSON.stringify(location));
       const url = getMapUrl + location.lat + "," + location.lng;
+
+      console.log("getMap() -> URL: " + url);
+
       return url;
     } catch (error) {
       console.log("getMap ERROR: " + error);

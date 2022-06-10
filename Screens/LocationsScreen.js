@@ -1,11 +1,10 @@
 import Screen from "./Screen";
-import OrderItem from "../Components/OrderItem";
+import LocationItem from "../Components/LocationItem";
 import { StyleSheet, View, Text, ActivityIndicator } from "react-native";
 import { useWindowDimensions, FlatList } from "react-native";
 import { stringTable } from "../Styles/StringTable";
 import { colors } from "../Styles/Colors";
 import { useSelector, useDispatch} from "react-redux";
-import LocationItem from "../Components/LocationItem";
 import { setLocationSelected } from "../Features/Locations";
 
 const LocationsScreen = (props) => {

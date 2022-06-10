@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     padding: 10,
     color: "black",
     fontSize: 18,
-    fontWeight: "bold",
+    //fontWeight: "bold",
   },
 
   error: {

@@ -28,7 +28,8 @@ export default LocationItem;
 const styles = StyleSheet.create({
   container: {
     height: 90,
-    margin: 10,
+    marginHorizontal: 10,
+    marginBottom:10,
   },
 
   text: {
@@ -85,6 +86,8 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 4,
-    marginRight:5,
+    marginRight: 5,
+    borderWidth: 1,
+    borderColor: "black",
   },
 });

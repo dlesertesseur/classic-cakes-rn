@@ -2,11 +2,11 @@ import Screen from "./Screen";
 import CustomTextInput from "../Components/CustomTextInput";
 import * as ImagePicker from 'expo-image-picker';
 import CustomButton from "../Components/CustomButton";
+import renamePathAndMove from "../Util/FileUtil";
 import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
-import { useWindowDimensions } from "react-native";
 import { stringTable } from "../Styles/StringTable";
 import { colors } from "../Styles/Colors";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import { addLocation } from "../Features/Locations";
 
@@ -14,13 +14,11 @@ const NewLocationScreen = (props) => {
   const { navigation, route } = props;
  
   const [title, setTitle] = useState("");
-  const [addressError, setAddressError] = useState("");
+  //const [address, setAddress] = useState("");
   const [picture, setPicture] = useState("");
   const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
 
-  const params = route.params;
-
-  console.log(params?.address);
+  const { address } = useSelector((state) => state.locations.value);
 
   const dispatch = useDispatch();
 
@@ -44,9 +42,6 @@ const NewLocationScreen = (props) => {
 
   const getPermission = async () => {
     const { status } = await ImagePicker.getCameraPermissionsAsync()
-
-    console.log(status);
-    if (status !== 'granted')
     {
       return false
     }
@@ -73,15 +68,14 @@ const NewLocationScreen = (props) => {
   }
 
   const validateConfirm = () => {
-    setConfirmButtonDisabled(!(title.length > 0 && picture.length > 0));
+    const validate = !(title.length > 0 && picture != null && picture.length > 0 && address)
+    setConfirmButtonDisabled(validate);
   }
 
   const onConfirm = async () => {
-    // const path = await renamePathAndMove(picture);
-    // console.log(path);
-    dispatch(addLocation({title, picture, address:params?.address, id: Date.now()}))
+    const path = await renamePathAndMove(picture);
+    dispatch(addLocation({title, path, id: Date.now(), address:params?.address}))
     setTitle("");
-    setAddressError("");
     setPicture("");
   }
 
@@ -105,7 +99,6 @@ const NewLocationScreen = (props) => {
           label={stringTable.LB_ADDRESS}
           value={title}
           setValue={validateData}
-          error={addressError}
           focusRef={focusRef}
           aditionalStyle={{ backgroundColor: "#F9EBC8" }}
         />

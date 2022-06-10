@@ -48,7 +48,8 @@ export default OrderItem;
 const styles = StyleSheet.create({
   container: {
     height: 90,
-    margin: 10,
+    marginHorizontal: 10,
+    marginBottom: 10,
   },
     text: {
     fontSize: 18,

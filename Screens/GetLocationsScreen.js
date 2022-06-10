@@ -1,22 +1,20 @@
 import Screen from "./Screen";
 import React, { useEffect, useState } from "react";
 import * as Location from "expo-location";
-import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
-import { useWindowDimensions, Image } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity, ActivityIndicator } from "react-native";
 import { stringTable } from "../Styles/StringTable";
 import { colors } from "../Styles/Colors";
 import { useSelector, useDispatch } from "react-redux";
 import { getMap, getReverseGeoCodeUrl } from "../Features/Locations";
 
 const GetLocationsScreen = (props) => {
-  const { navigation } = props;
-  const { height } = useWindowDimensions();
+  const { navigation, route } = props;
 
   const [location, setLocation] = useState(null);
 
   const dispatch = useDispatch();
   
-  const { mapUrl, address, loading } = useSelector((state) => state.locations.value);
+  const { mapUrl, address } = useSelector((state) => state.locations.value);
 
   const onConfirmAddress = () => {
     navigation.navigate("NewLocation", {address})
@@ -29,6 +27,7 @@ const GetLocationsScreen = (props) => {
         setErrorMsg("Permission to access location was denied");
         return;
       }
+
       let loc = await Location.getCurrentPositionAsync({});
 
       setLocation({
@@ -63,8 +62,8 @@ const GetLocationsScreen = (props) => {
         <View style={styles.panel}>
           <ActivityIndicator
             style={styles.indicator}
-            size="small"
-            color={colors.textInputBack}
+            size="large"
+            color={colors.secondary}
           />
         </View>
       )}
@@ -80,7 +79,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primaryLighter,
     justifyContent: "flex-start",
     alignItems: "center",
-    margin:10,
+    marginHorizontal: 10,
   },
 
   panel: {
@@ -91,9 +90,8 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    height: 500,
+    flex: 3/4,
     width: "100%",
-    margin: 5,
     borderRadius: 4,
   },
 
@@ -114,7 +112,7 @@ const styles = StyleSheet.create({
 
   text: {
     fontSize: 18,
-    fontWeight: "bold",
+    //fontWeight: "bold",
     borderRadius:4,
   },
 
@@ -126,6 +124,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: colors.primaryDarker,
-    marginBottom: 15,
+    marginVertical: 10,
   },
 });
