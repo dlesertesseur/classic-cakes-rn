@@ -27,6 +27,8 @@ const SetLocationsScreen = (props) => {
   const onConfirmAddress = () => {
     if (location) {
       dispatch(getReverseGeoCodeUrl({ location: location }));
+
+      console.log("onConfirmAddress() -> " + address);
       navigation.navigate("NewLocation", { address });
     }
   };

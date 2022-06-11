@@ -64,6 +64,7 @@ export const locationsSlice = createSlice({
 
     addLocation: (state, { payload }) => {
       state.value.locations.push(payload);
+      state.value.address = null;
     },
   },
 

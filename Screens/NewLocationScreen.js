@@ -14,13 +14,14 @@ const NewLocationScreen = (props) => {
   const { navigation, route } = props;
  
   const [title, setTitle] = useState("");
-  //const [address, setAddress] = useState("");
   const [picture, setPicture] = useState("");
   const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
 
   const { address } = useSelector((state) => state.locations.value);
 
   const dispatch = useDispatch();
+
+  const params = route.params;
 
   const focusRef = useRef(null);
 
@@ -30,7 +31,7 @@ const NewLocationScreen = (props) => {
 
   useEffect(() => {
     validateConfirm();
-  },[title, picture])
+  },[title, picture, address]);
 
   const onGetLocation = () => {
     navigation.navigate("GetLocation");
@@ -73,8 +74,8 @@ const NewLocationScreen = (props) => {
   }
 
   const onConfirm = async () => {
-    const path = await renamePathAndMove(picture);
-    dispatch(addLocation({title, path, id: Date.now(), address:params?.address}))
+    //const path = await renamePathAndMove(picture);
+    dispatch(addLocation({title, picture, id: Date.now(), address:params?.address}))
     setTitle("");
     setPicture("");
   }

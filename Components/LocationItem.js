@@ -9,7 +9,7 @@ const LocationItem = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <Image style={styles.image} source={location.picture} />
+        <Image style={styles.image} source={{uri: location.picture}} />
         <View style={styles.itemData}>
           <View style={styles.itemDataRow}>
             <Text style={styles.text}>{location.title}</Text>
@@ -71,9 +71,11 @@ const styles = StyleSheet.create({
 
   itemData: {
     flex: 1,
+    height: "100%",
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "center",
+    marginLeft: 5,
   },
 
   buttons: {
@@ -87,7 +89,7 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 4,
     marginRight: 5,
-    borderWidth: 1,
-    borderColor: "black",
+    //borderWidth: 1,
+    //borderColor: "black",
   },
 });
