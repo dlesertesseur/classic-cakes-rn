@@ -2,11 +2,11 @@ import Screen from "./Screen";
 import CustomTextInput from "../Components/CustomTextInput";
 import * as ImagePicker from 'expo-image-picker';
 import CustomButton from "../Components/CustomButton";
-import renamePathAndMove from "../Util/FileUtil";
+//mport renamePathAndMove from "../Util/FileUtil";
 import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 import { stringTable } from "../Styles/StringTable";
 import { colors } from "../Styles/Colors";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import { addLocation } from "../Features/Locations";
 
@@ -17,8 +17,6 @@ const NewLocationScreen = (props) => {
   const [picture, setPicture] = useState("");
   const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
 
-  const { address } = useSelector((state) => state.locations.value);
-
   const dispatch = useDispatch();
 
   const params = route.params;
@@ -26,12 +24,12 @@ const NewLocationScreen = (props) => {
   const focusRef = useRef(null);
 
   useEffect(() => {
-    focusRef.current.focus();
+    focusRef.current.focus();   
   }, []);
 
   useEffect(() => {
     validateConfirm();
-  },[title, picture, address]);
+  },[title, picture, params?.address]);
 
   const onGetLocation = () => {
     navigation.navigate("GetLocation");
@@ -69,13 +67,13 @@ const NewLocationScreen = (props) => {
   }
 
   const validateConfirm = () => {
-    const validate = !(title.length > 0 && picture != null && picture.length > 0 && address)
+    const validate = !(title.length > 0 && picture != null && picture.length > 0 && params?.address)
     setConfirmButtonDisabled(validate);
   }
 
   const onConfirm = async () => {
     //const path = await renamePathAndMove(picture);
-    dispatch(addLocation({title, picture, id: Date.now(), address:params?.address}))
+    dispatch(addLocation({title, picture, id: Date.now(), address:params?.address}));
     setTitle("");
     setPicture("");
   }

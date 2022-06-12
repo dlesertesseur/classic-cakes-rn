@@ -66,6 +66,8 @@ export const locationsSlice = createSlice({
       state.value.locations.push(payload);
       state.value.address = null;
     },
+
+    resetLocationData: () => initialState
   },
 
   extraReducers: {
@@ -97,6 +99,6 @@ export const locationsSlice = createSlice({
   },
 });
 
-export const { setLocationSelected, addLocation } = locationsSlice.actions;
+export const { setLocationSelected, addLocation, resetLocationData } = locationsSlice.actions;
 
 export default locationsSlice.reducer;

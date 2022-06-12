@@ -112,7 +112,6 @@ const styles = StyleSheet.create({
 
   text: {
     fontSize: 18,
-    //fontWeight: "bold",
     borderRadius:4,
   },
 

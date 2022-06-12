@@ -65,6 +65,7 @@ const SignUpScreen = ({ navigation }) => {
         setPasswordError("");
         if (password === confirmPassword) {
           dispatch(signUp({ email: email, password: password }));
+          dispatch(resetLocationData());
         } else {
           setPasswordConfirmError(stringTable.CONFIRM_PASSWORD_ERROR);
         }

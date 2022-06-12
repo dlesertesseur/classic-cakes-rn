@@ -163,4 +163,9 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 5
   },
+
+  text: {
+    fontSize: 18,
+    borderRadius:4,
+  },
 });

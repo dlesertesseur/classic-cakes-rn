@@ -7,6 +7,7 @@ import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from "rea
 import { login } from "../Features/Auth";
 import { schemaEmail, schemaPassword } from "../Util/validateSchemas";
 import { colors } from "../Styles/Colors";
+import { resetLocationData } from "../Features/Locations";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -34,6 +35,7 @@ const LoginScreen = ({ navigation }) => {
       } else {
         setPasswordError("");
         dispatch(login({ email: email, password: password }));
+        dispatch(resetLocationData());
       }
     }
   };
