@@ -1,21 +1,24 @@
 import Screen from "./Screen";
 import CustomTextInput from "../Components/CustomTextInput";
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
 import CustomButton from "../Components/CustomButton";
 //mport renamePathAndMove from "../Util/FileUtil";
 import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 import { stringTable } from "../Styles/StringTable";
 import { colors } from "../Styles/Colors";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import { useEffect, useRef, useState } from "react";
-import { addLocation } from "../Features/Locations";
+import { addLocation, addLocationDb } from "../Features/Locations";
+import NotificationDialog from "../Components/NotificacionDialog";
 
 const NewLocationScreen = (props) => {
   const { navigation, route } = props;
- 
+
   const [title, setTitle] = useState("");
   const [picture, setPicture] = useState("");
   const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
+  const [showAlerDialog, setShowAlerDialog] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const dispatch = useDispatch();
 
@@ -23,13 +26,16 @@ const NewLocationScreen = (props) => {
 
   const focusRef = useRef(null);
 
+  const { error } = useSelector((state) => state.locations.value);
+  
   useEffect(() => {
-    focusRef.current.focus();   
+    focusRef.current.focus();
   }, []);
 
   useEffect(() => {
     validateConfirm();
-  },[title, picture, params?.address]);
+  }, [title, picture, params?.address]);
+
 
   const onGetLocation = () => {
     navigation.navigate("GetLocation");
@@ -40,43 +46,60 @@ const NewLocationScreen = (props) => {
   };
 
   const getPermission = async () => {
-    const { status } = await ImagePicker.getCameraPermissionsAsync()
+    const { status } = await ImagePicker.getCameraPermissionsAsync();
     {
-      return false
+      return false;
     }
-    return true
-  }
+    return true;
+  };
 
   const onTakePhoto = async () => {
     const isVerified = getPermission();
     if (!isVerified) {
-      return
+      return;
     }
 
     const image = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       aspect: [16, 9],
       quality: 1,
-    })
+    });
 
     setPicture(image.uri);
-  }
-  
+  };
+
   const validateData = (value) => {
     setTitle(value);
-  }
+  };
 
   const validateConfirm = () => {
-    const validate = !(title.length > 0 && picture != null && picture.length > 0 && params?.address)
+    const validate = !(
+      title.length > 0 &&
+      picture != null &&
+      picture.length > 0 &&
+      params?.address
+    );
     setConfirmButtonDisabled(validate);
-  }
+  };
 
   const onConfirm = async () => {
     //const path = await renamePathAndMove(picture);
-    dispatch(addLocation({title, picture, id: Date.now(), address:params?.address}));
+    const loc = {
+      title,
+      picture,
+      id: Date.now(),
+      address: params?.address,
+    }
+    dispatch(addLocationDb(loc));
+    dispatch(addLocation(loc));
+
+    setShowAlerDialog(error);
+
     setTitle("");
     setPicture("");
-  }
+
+
+  };
 
   const onSelectPhoto = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -89,7 +112,7 @@ const NewLocationScreen = (props) => {
     if (!result.cancelled) {
       setPicture(result.uri);
     }
-  }
+  };
 
   return (
     <Screen>
@@ -122,11 +145,21 @@ const NewLocationScreen = (props) => {
           <Text style={styles.textButton}> {stringTable.BT_MAP} </Text>
         </TouchableOpacity>
 
-        <CustomButton 
-          onPress={onConfirm} 
-          disabled ={confirmButtonDisabled}
-          text = {stringTable.BT_CONFIRM}
-          color = {colors.confirmButtom}/>
+        <CustomButton
+          onPress={onConfirm}
+          disabled={confirmButtonDisabled}
+          text={stringTable.BT_CONFIRM}
+          color={colors.confirmButtom}
+        />
+
+        <NotificationDialog
+          type={"error"}
+          visible={showAlerDialog}
+          text={errorMessage}
+          onClose={() => {
+            setShowAlerDialog(false);
+          }}
+        />
       </View>
     </Screen>
   );
@@ -172,11 +205,11 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: '100%',
+    width: "100%",
     height: 200,
     borderWidth: 2,
     borderRadius: 8,
     borderColor: colors.lightBlue,
     marginBottom: 15,
-  }
+  },
 });

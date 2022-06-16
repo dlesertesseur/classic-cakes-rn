@@ -11,12 +11,12 @@ import {
   useWindowDimensions,
 } from "react-native";
 
+import NotificationDialog from "../Components/NotificacionDialog";
 import { stringTable } from "../Styles/StringTable";
 import { useState, useEffect } from "react";
 import { colors } from "../Styles/Colors";
 import { useSelector, useDispatch } from "react-redux";
 import { confirmPurchase, removeItem, clearData } from "../Features/Cart";
-import NotificationDialog from "../Components/NotificacionDialog";
 import { getOrders } from "../Features/Orders";
 
 const CartScreen = (props) => {

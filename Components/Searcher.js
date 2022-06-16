@@ -1,6 +1,6 @@
 import {
   StyleSheet,
-  Text,
+  ActivityIndicator,
   View,
   TextInput,
   TouchableOpacity,
@@ -18,6 +18,7 @@ const Searcher = (props) => {
     renderElement,
     filteredElements,
     placeholder = "Buscar...",
+    loading,
   } = props;
   const [filteredText, setFilteredText] = React.useState("");
 
@@ -46,7 +47,18 @@ const Searcher = (props) => {
           <Ionicons name="md-remove-circle" size={36} color="black" />
         </TouchableOpacity>
       </View>
-      <List data={data} columns={columns} renderElement={renderElement} />
+
+      {loading ? (
+        <View style={styles.activityPanel}>
+          <ActivityIndicator
+            style={styles.indicator}
+            size="large"
+            color={colors.activityIndicator}
+          />
+        </View>
+      ) : (
+        <List data={data} columns={columns} renderElement={renderElement} />
+      )}
     </View>
   );
 };
@@ -76,7 +88,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 4,
     height: 40,
-    
   },
 
   button: {
@@ -86,6 +97,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 4,
     height: 40,
-    width: 40
+    width: 40,
   },
+
+  activityPanel: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 4,
+  },
+
+  indicator: {},
 });

@@ -1,22 +1,32 @@
-import React from 'react'
-import ShopNavigator from '../../Stacks/Shop'
-import CartStack from '../../Stacks/Cart';
-import OrderStack from '../../Stacks/Order';
-import { StyleSheet, Text, View } from 'react-native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { MaterialIcons } from '@expo/vector-icons';
-import { colors } from '../../../Styles/Colors';
-import LocationStack from '../../Stacks/Location';
+import React, { useEffect } from "react";
+import ShopNavigator from "../../Stacks/Shop";
+import CartStack from "../../Stacks/Cart";
+import OrderStack from "../../Stacks/Order";
+import LocationStack from "../../Stacks/Location";
+import { StyleSheet, Text, View } from "react-native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { MaterialIcons } from "@expo/vector-icons";
+import { colors } from "../../../Styles/Colors";
+import { useDispatch } from "react-redux";
+import { getCategories } from "../../../Features/Categories";
+import { getProducts } from "../../../Features/Products";
 
-const BottomTabs = createBottomTabNavigator()
+const BottomTabs = createBottomTabNavigator();
 
 const TabNavigatorLogged = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCategories());
+    dispatch(getProducts());
+  }, []);
+
   return (
     <BottomTabs.Navigator
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarStyle: styles.tabBar
+        tabBarStyle: styles.tabBar,
       }}
     >
       <BottomTabs.Screen
@@ -29,8 +39,8 @@ const TabNavigatorLogged = () => {
                 <MaterialIcons name="storefront" size={24} color="black" />
                 <Text>Shop</Text>
               </View>
-            )
-          }
+            );
+          },
         }}
       />
       <BottomTabs.Screen
@@ -43,8 +53,8 @@ const TabNavigatorLogged = () => {
                 <MaterialIcons name="shopping-cart" size={24} color="black" />
                 <Text>Cart</Text>
               </View>
-            )
-          }
+            );
+          },
         }}
       />
 
@@ -58,8 +68,8 @@ const TabNavigatorLogged = () => {
                 <MaterialIcons name="view-list" size={24} color="black" />
                 <Text>Orders</Text>
               </View>
-            )
-          }
+            );
+          },
         }}
       />
       <BottomTabs.Screen
@@ -72,15 +82,15 @@ const TabNavigatorLogged = () => {
                 <MaterialIcons name="location-pin" size={24} color="black" />
                 <Text>Location</Text>
               </View>
-            )
-          }
+            );
+          },
         }}
       />
     </BottomTabs.Navigator>
-  )
-}
+  );
+};
 
-export default TabNavigatorLogged
+export default TabNavigatorLogged;
 
 const styles = StyleSheet.create({
   tabBar: {
@@ -95,11 +105,11 @@ const styles = StyleSheet.create({
     right: 10,
     borderRadius: 4,
     height: 70,
-    backgroundColor: colors.primary
+    backgroundColor: colors.primary,
   },
   item: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  }
-})
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});

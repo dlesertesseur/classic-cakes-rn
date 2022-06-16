@@ -1,11 +1,13 @@
 import Screen from "./Screen";
 import LocationItem from "../Components/LocationItem";
+import AlertDialog from "../Components/AlertDialog";
 import { StyleSheet, View, Text, ActivityIndicator } from "react-native";
 import { useWindowDimensions, FlatList } from "react-native";
 import { stringTable } from "../Styles/StringTable";
 import { colors } from "../Styles/Colors";
-import { useSelector, useDispatch} from "react-redux";
-import { setLocationSelected } from "../Features/Locations";
+import { useSelector, useDispatch } from "react-redux";
+import { getLocations, removeLocation, removeLocationDb } from "../Features/Locations";
+import { useEffect, useState } from "react";
 
 const LocationsScreen = (props) => {
   const { navigation, route } = props;
@@ -13,21 +15,28 @@ const LocationsScreen = (props) => {
 
   const dispatch = useDispatch();
 
+  const [showAlerDialog, setShowAlerDialog] = useState(false);
+  const [locationSelected, setLocationSelected] = useState(null);
+
   const { locations, loading } = useSelector((state) => state.locations.value);
 
-  const onPress = (location) => {
-    dispatch(setLocationSelected(location.id));
-    console.log("LocationsScreen::onPress");
-  };
+  useEffect(() => {
+    dispatch(getLocations());
+  }, []);
 
-  const onDelete = (order) => {
-    console.log("LocationsScreen::onDelete");
-  };
+  const onRemove = (location) => {
+    setLocationSelected(location);
+    setShowAlerDialog(true);
+  }
+
+  const onConfirmDelete = () => {
+    dispatch(removeLocationDb({ id: locationSelected.id }))
+    dispatch(removeLocation({ id: locationSelected.id }))
+    setShowAlerDialog(false);
+  }
 
   const renderElement = ({ item }) => {
-    return (
-      <LocationItem location={item} onPress={onPress} onDelete={onDelete}></LocationItem>
-    );
+    return <LocationItem location={item} onRemove={onRemove}></LocationItem>;
   };
 
   return (
@@ -52,6 +61,16 @@ const LocationsScreen = (props) => {
                   keyExtractor={(item) => item.id}
                 />
               </View>
+
+              <AlertDialog
+                visible={showAlerDialog}
+                text={stringTable.REMOVE_ADDRESS_TEXT}
+                onAction={onConfirmDelete}
+                onCancel={() => {
+                  setShowAlerDialog(false);
+                  setLocationSelected(null);
+                }}
+              />
             </View>
           ) : (
             <View style={styles.panel}>

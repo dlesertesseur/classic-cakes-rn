@@ -35,11 +35,13 @@ export const stringTable = {
   SCREEN_SET_LOCATION: "Definir ubicacion",
   REMOVE_PRODUCT_TITLE: "Eliminar Producto",
   REMOVE_PRODUCT_TEXT: "Esta seguro de eliminar el producto?",
+  REMOVE_ADDRESS_TEXT: "Esta seguro de eliminar la ubicacion?",
   CONFIRM_PURCHASE_TEXT: "Esta seguro de generar la orden?",
   PURCHASE_CONFIRMED_TEXT: "La orden se creo correctamente",
   PURCHASE_ERROR_TEXT: "Error al crear la orden",
   SIGNUP_ERROR: "Error al registrar el usuario",
   LOGIN_ERROR: "Error en el login de usuario",
+  LOCATION_ERROR: "Error al insertar una ubicacion",
   CONFIRM_PASSWORD_ERROR: "Las claves no son iguales",
   MANDATORY_FIELD: "Campo obligatorio"
 };

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getMapUrl, getreverseGeoCodeUrl } from "../../Constants/mapquest";
+import { deleteAddress, fetchAddress, insertAddress } from "../../DDBB";
 
 const initialState = {
   value: {
@@ -9,8 +10,57 @@ const initialState = {
     locationSelected: null,
     mapUrl: null,
     address: null,
+    responseDb: null,
+    reload: null,
   },
 };
+
+export const addLocationDb = createAsyncThunk(
+  "location/addLocationDb",
+  async (location, asyncThunk) => {
+    try {
+      const result = await insertAddress(
+        location.title,
+        location.id,
+        location.picture,
+        location.address
+      );
+      return `Record succesfully row with id: ${result.insertId}`;
+    } catch (error) {
+      console.log(error.message);
+      return asyncThunk.rejectWithValue("Error at writing address on db");
+    }
+  }
+);
+
+export const removeLocationDb = createAsyncThunk(
+  "location/removeLocationDb",
+  async (location, asyncThunk) => {
+    try {
+      const result = await deleteAddress(location.id);
+
+      return `Item with id: ${location.id} removed successfully`;
+    } catch (error) {
+      console.log(error.message);
+      return asyncThunk.rejectWithValue(
+        `Error at remove item with id: ${location.id}`
+      );
+    }
+  }
+);
+
+export const getLocations = createAsyncThunk(
+  "location/getLocations",
+  async (_, asyncThunk) => {
+    try {
+      const result = await fetchAddress();
+      const data = result.rows._array;
+      return data;
+    } catch (error) {
+      return asyncThunk.rejectWithValue("Error at fetching addresses on db");
+    }
+  }
+);
 
 export const getMap = createAsyncThunk(
   "locations/getMap",
@@ -65,9 +115,15 @@ export const locationsSlice = createSlice({
     addLocation: (state, { payload }) => {
       state.value.locations.push(payload);
       state.value.address = null;
+      addLocationDb(payload);
     },
 
-    resetLocationData: () => initialState
+    removeLocation: (state, { payload }) => {
+      state.value.locations = state.value.locations.filter(
+        (location) => location.id !== payload.id
+      );
+    },
+    resetLocationData: () => initialState,
   },
 
   extraReducers: {
@@ -96,9 +152,51 @@ export const locationsSlice = createSlice({
       state.value.loading = false;
       state.value.error = true;
     },
+
+    //addLocationDb
+    [addLocationDb.pending]: (state) => {
+      state.value.loading = true;
+    },
+    [addLocationDb.fulfilled]: (state, { payload }) => {
+      state.value.loading = false;
+      state.value.error = null;
+    },
+    [addLocationDb.rejected]: (state, { payload }) => {
+      state.value.loading = false;
+      state.value.error = payload;
+    },
+
+    //getLocations
+    [getLocations.pending]: (state) => {
+      state.value.loading = true;
+    },
+    [getLocations.fulfilled]: (state, { payload }) => {
+      state.value.loading = false;
+      state.value.error = null;
+      state.value.locations = payload;
+    },
+    [getLocations.rejected]: (state, { payload }) => {
+      state.value.loading = false;
+      state.value.error = payload;
+    },
+
+    //removeLocationDb
+    [removeLocationDb.pending]: (state) => {
+      state.value.loading = true;
+    },
+    [removeLocationDb.fulfilled]: (state, { payload }) => {
+      state.value.loading = false;
+      state.value.error = null;
+      state.value.responseDb = payload;
+    },
+    [removeLocationDb.rejected]: (state, { payload }) => {
+      state.value.loading = false;
+      state.value.error = payload;
+    },
   },
 });
 
-export const { setLocationSelected, addLocation, resetLocationData } = locationsSlice.actions;
+export const { setLocationSelected, addLocation, resetLocationData, removeLocation } =
+  locationsSlice.actions;
 
 export default locationsSlice.reducer;

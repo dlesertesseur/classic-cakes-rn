@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Screen from "../Screens/Screen";
 import Searcher from "../Components/Searcher";
 import CategoryItem from "../Components/List/CategoryItem";
@@ -10,10 +10,15 @@ import { setProductsByCategory } from '../Features/Products'
 
 const CategoriesScreen = (props) => {
   const { placeholder, navigation } = props;
-  const {categories} = useSelector(state => state.categories.value)
 
-  const [filteredCategories, setSetFilteredCategories] = useState(categories);
+  const {categories, loading } = useSelector(state => state.categories.value)
+
+  const [filteredCategories, setFilteredCategories] = useState(categories);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setFilteredCategories(categories);
+  }, [loading]);
 
   const onSelectCategory = (category) => {
 
@@ -33,9 +38,9 @@ const CategoriesScreen = (props) => {
         const sz = element.text.toLowerCase();
         return sz.includes(toFilterText.toLowerCase());
       });
-      setSetFilteredCategories(ret);
+      setFilteredCategories(ret);
     } else {
-      setSetFilteredCategories(categories);
+      setFilteredCategories(categories);
     }
   };
 
@@ -47,6 +52,7 @@ const CategoriesScreen = (props) => {
         renderElement={renderElement}
         filteredElements={filteredElements}
         placeholder={placeholder}
+        loading={loading}
       />
     </Screen>
   );
