@@ -23,16 +23,12 @@ const OrderScreen = (props) => {
 
   const onPress = (order) => {
     dispatch(setOrderSelected(order.id));
-    console.log("OrderScreen::onPress");
-  };
-
-  const onDelete = (order) => {
-    console.log("OrderScreen::onDelete");
+    navigation.navigate("OrderDetail", {products: order.items});
   };
 
   const renderElement = ({ item }) => {
     return (
-      <OrderItem order={item} onPress={onPress} onDelete={onDelete}></OrderItem>
+      <OrderItem order={item} onPress={onPress} ></OrderItem>
     );
   };
 

@@ -1,16 +1,11 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
-
 import React from "react";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { colors } from "../Styles/Colors";
-import { MaterialIcons } from '@expo/vector-icons'; 
+import { MaterialIcons } from "@expo/vector-icons";
+import { stringTable } from "../Styles/StringTable";
 
 const CartItem = (props) => {
-  const { product, onDelete } = props;
+  const { product, onDelete = null } = props;
 
   const localOnDelete = () => {
     onDelete(product);
@@ -27,14 +22,28 @@ const CartItem = (props) => {
             <Text style={styles.text}>{"Cantidad: " + product.quantity}</Text>
           </View>
           <View style={styles.itemDataRow}>
-            <Text style={styles.text}>{"$ " + product.price}</Text>
+            <Text style={styles.text}>
+              {stringTable.LB_UNIT_PRICE + product.price}
+            </Text>
+            {product.quantity > 1 ? (
+              <Text style={[styles.text, styles.spacer]}>
+                {stringTable.LB_SUB_TOTAL + product.price * product.quantity}
+              </Text>
+            ) : (
+              <></>
+            )}
           </View>
-        </View >
-        <View style={styles.buttons}>
-          <TouchableOpacity style={styles.button} onPress={localOnDelete}>
-            <MaterialIcons name="highlight-remove" size={32} color="black" />
-          </TouchableOpacity>
         </View>
+
+        {onDelete !== null ? (
+          <View style={styles.buttons}>
+            <TouchableOpacity style={styles.button} onPress={localOnDelete}>
+              <MaterialIcons name="highlight-remove" size={32} color="black" />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <></>
+        )}
       </View>
     </View>
   );
@@ -46,24 +55,24 @@ const styles = StyleSheet.create({
   container: {
     height: 90,
     marginHorizontal: 10,
-    marginBottom:10,
+    marginBottom: 10,
   },
-    text: {
+  text: {
     fontSize: 18,
     color: "#000000",
-    fontFamily: 'LatoItalic'
+    fontFamily: "LatoItalic",
   },
-  
+
   textTitle: {
     fontSize: 22,
     color: "#000000",
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
 
   text: {
     fontSize: 18,
     color: "#000000",
-    fontFamily: 'LatoItalic'
+    fontFamily: "LatoItalic",
   },
 
   row: {
@@ -74,7 +83,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    backgroundColor: colors.primaryDarker
+    backgroundColor: colors.primaryDarker,
   },
 
   itemDataRow: {
@@ -82,7 +91,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    marginBottom: 5
+    marginBottom: 5,
   },
 
   itemData: {
@@ -98,8 +107,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  button: {
-    //justifyContent: "center",
-    //alignItems: "flex-start",
+  button: {},
+
+  spacer: {
+    marginLeft: 10,
   },
 });

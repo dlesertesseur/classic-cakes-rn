@@ -8,6 +8,7 @@ const NotificationDialog = (props) => {
     type = "notification",
     visible,
     text = "NO DEF",
+    detail = null,
     onClose,
   } = props;
 
@@ -15,15 +16,15 @@ const NotificationDialog = (props) => {
     //Se utiliza el switch para tratar posibles nuevos tipos
     let ret = null;
     switch (type) {
-      case 'error':
+      case "error":
         ret = styles.panelError;
         break;
-      case 'alert':
+      case "alert":
         ret = styles.panelAlert;
         break;
     }
-    return(ret);
-  }
+    return ret;
+  };
 
   return (
     <Modal
@@ -36,7 +37,13 @@ const NotificationDialog = (props) => {
         <View style={[styles.panel, determineStyle(type)]}>
           <View style={styles.textPanel}>
             <Text style={styles.text}> {text} </Text>
+            {detail !== null ? (
+              <Text style={styles.text}> {detail} </Text>
+            ) : (
+              <></>
+            )}
           </View>
+
           <View style={styles.bottomPanel}>
             <TouchableOpacity style={styles.button} onPress={onClose}>
               <Text style={styles.buttonText}>{stringTable.BT_CLOSE}</Text>

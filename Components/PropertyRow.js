@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 import { colors } from "../Styles/Colors";
 
 const PropertyRow = (props) => {
@@ -21,7 +21,8 @@ export default PropertyRow;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",

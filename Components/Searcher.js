@@ -72,7 +72,8 @@ const styles = StyleSheet.create({
   },
 
   panel: {
-    margin: 10,
+    marginHorizontal: 10,
+    marginBottom: 10,
     padding: 10,
     flexDirection: "row",
     justifyContent: "space-between",

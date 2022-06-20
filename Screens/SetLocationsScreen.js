@@ -27,8 +27,6 @@ const SetLocationsScreen = (props) => {
   const onConfirmAddress = () => {
     if (location) {
       dispatch(getReverseGeoCodeUrl({ location: location }));
-
-      console.log("onConfirmAddress() -> " + address);
       navigation.navigate("NewLocation", { address });
     }
   };
@@ -49,7 +47,7 @@ const SetLocationsScreen = (props) => {
       }
 
       let loc = await Location.getCurrentPositionAsync({});
-
+      
       setLocation({
         lat: loc.coords.latitude,
         lng: loc.coords.longitude,
@@ -97,7 +95,7 @@ const SetLocationsScreen = (props) => {
                 onPress={onConfirmAddress}
                 disabled={confirmButtonDisabled}
                 text={stringTable.BT_CONFIRM}
-                color={colors.confirmButtom}
+                color={colors.confirmButton}
               />
             </View>
           </>
@@ -136,6 +134,8 @@ const styles = StyleSheet.create({
   mapViewPanel: {
     flex: 4 / 5,
     marginHorizontal: 10,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
 
   panel: {

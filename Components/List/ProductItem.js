@@ -17,11 +17,14 @@ const ProductItem = (props) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.image}>
-        <TouchableOpacity style={styles.button} onPress={localOnPress}>
+      <TouchableOpacity style={styles.panel} onPress={localOnPress}>
+        <View style={styles.imagePanel}>
+          <View style={styles.image} />
+        </View>
+        <View style={styles.textPanel}>
           <Text style={styles.text}>{product.title}</Text>
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -32,26 +35,47 @@ const styles = StyleSheet.create({
   container: {
     flex: 1 / 2,
     height: 150,
-    margin: 10,
-    borderRadius: 4,
+    marginBottom: 10,
+    marginHorizontal: 5,
   },
+
+  panel: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: colors.secondary,
+    borderRadius: 6,
+  },
+
   text: {
     fontSize: 18,
     color: "#000000",
-    fontFamily: 'LatoItalic'
+    fontFamily: "LatoItalic",
+    marginRight: 10,
   },
 
   image: {
-    width: "100%",
-    height: "100%",
-    borderRadius: 4,
-    backgroundColor: colors.primaryDarker
+    backgroundColor: colors.secondary,
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
+    marginTop: 3,
+    marginLeft: 3,
+    marginRight: 3,
+    flex: 1,
   },
-  button: {
-    padding: 10,
-    width: "100%",
-    height: "100%",
-    justifyContent: "flex-end",
+
+  imagePanel: {
+    flex: 1,
+    backgroundColor: colors.primary,
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
+  },
+
+  textPanel: {
+    height: 30,
+    justifyContent: "center",
     alignItems: "flex-end",
+    backgroundColor: colors.primary,
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
   },
 });

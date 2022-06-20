@@ -3,8 +3,11 @@ export const colors = {
     primaryDarker: "#DAE5D0",
     primaryLighter: "#FEFBE7",
     secondary: "#A0BCC2",
-    confirmButtom:"#FF5D5D",
+    confirmButton:"#FF5D5D",
+    disabledButton:"#C5C5C5",
+    disabledFont:"#A5A5A5",
     confirmPanel:"#B8F1B0",
+    confirmPanelBorder:"#A5D89E",
     backDialog: "#D1D1D1",
     buttonDialog: "#7882A4",
     textInputBack: "#DBDFFD",
@@ -12,5 +15,5 @@ export const colors = {
     error : "#ff0000",
     authScreensBack: "#9BA3EB",
     activityIndicator: "#242F9B",
-
+    border:"#E0D3B4",
 }

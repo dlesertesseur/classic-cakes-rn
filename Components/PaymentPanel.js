@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { stringTable } from "../Styles/StringTable";
 import { colors } from "../Styles/Colors";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const PaymentPanel = (props) => {
   const { onPress, totalToPay } = props;
@@ -34,17 +35,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.confirmButtom,
+    backgroundColor: colors.confirmButton,
   },
 
   text: {
     fontSize: 22,
-    color: "#ffffff",
+    color: "black",
   },
 
   textLabel: {
     fontSize: 22,
-    color: "#000000",
+    color: "black",
   },
 
   bottomPanelRight: {
@@ -59,6 +60,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: colors.confirmPanel,
+    borderWidth: 1,
+    borderColor: colors.confirmPanelBorder,
   },
 
   bottomPanel: {

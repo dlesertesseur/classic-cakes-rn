@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { DDBB_URL } from "../../Constants/firebase";
-//import { CATEGORIES } from "../../Data/data";
+import { DDBB_URL } from "@env";
 
 const initialState = {
   value: {
@@ -40,10 +39,12 @@ export const categoriesSlice = createSlice({
     [getCategories.pending]: (state) => {
       state.value.loading = true;
     },
+
     [getCategories.fulfilled]: (state, { payload }) => {
       state.value.loading = false;
       state.value.categories = payload;
     },
+
     [getCategories.rejected]: (state) => {
       state.value.loading = false;
       state.value.error = true;

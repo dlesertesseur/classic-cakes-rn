@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { DDBB_URL } from "../../Constants/firebase";
+import { DDBB_URL } from "@env";
 
 const initialState = {
   value: {
@@ -27,8 +27,6 @@ export const productsSlice = createSlice({
   initialState: initialState,
   reducers: {
     setProductsByCategory: (state, action) => {
-      console.log("products", JSON.stringify(state.value.products));
-
       const productsFiltered = state.value.products.filter(
         (product) => product.category_id === action.payload
       );

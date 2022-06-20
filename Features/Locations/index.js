@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getMapUrl, getreverseGeoCodeUrl } from "../../Constants/mapquest";
+import { getMapUrl, getreverseGeoCodeUrl } from "@env";
 import { deleteAddress, fetchAddress, insertAddress } from "../../DDBB";
 
 const initialState = {
@@ -68,7 +68,7 @@ export const getMap = createAsyncThunk(
     try {
       const url = getMapUrl + location.lat + "," + location.lng;
 
-      console.log("getMap() -> URL: " + url);
+      //console.log("getMap() -> URL: " + url);
 
       return url;
     } catch (error) {
@@ -86,14 +86,23 @@ export const getReverseGeoCodeUrl = createAsyncThunk(
       const ret = await fetch(url);
 
       const data = Object.values(await ret.json());
+
+      //console.log("getReverseGeoCodeUrl() -> " + url);
+
       const arr0 = data[0];
       const arr1 = data[1];
       const arr2 = data[2];
       const locs = arr2[0];
       const loc1 = locs.locations[0];
-      const street = loc1.street;
 
-      return street;
+      const street = loc1.street;
+      const country = loc1.adminArea1;
+      const province = loc1.adminArea3;
+      const city = loc1.adminArea5;
+
+      const address = street + ", " + (province !== city ? (city + " " + province) : city);
+
+      return address;
     } catch (error) {
       console.log("getReverseGeoCodeUrl ERROR: " + error);
       return rejectWithValue("Error: no es posible obtener las ubicaciones");
@@ -123,7 +132,7 @@ export const locationsSlice = createSlice({
         (location) => location.id !== payload.id
       );
     },
-    resetLocationData: () => initialState,
+    resetLocationData: (state, { payload }) => {initialState},
   },
 
   extraReducers: {

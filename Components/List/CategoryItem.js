@@ -1,12 +1,8 @@
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-
 import React from "react";
+import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors } from "../../Styles/Colors";
+
+const radius = 6; 
 
 const CategoryItem = (props) => {
   const { category, onPress } = props;
@@ -17,11 +13,14 @@ const CategoryItem = (props) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.image}>
-        <TouchableOpacity style={styles.button} onPress={localOnPress}>
+      <TouchableOpacity style={styles.panel} onPress={localOnPress}>
+        <View style={styles.imagePanel}>
+          <View style={styles.image}/>
+        </View>
+        <View style={styles.textPanel}>
           <Text style={styles.text}>{category.text}</Text>
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -32,27 +31,51 @@ const styles = StyleSheet.create({
   container: {
     flex: 1 / 2,
     height: 150,
-    margin: 10,
-    borderRadius: 4,
-    backgroundColor: colors.secondary
+    marginBottom:10,
+    marginHorizontal: 5,
   },
+  
+  panel: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: colors.secondary,
+    borderRadius: radius,
+    //borderWidth:1,
+    //borderColor: colors.border,
+  },
+
   text: {
     fontSize: 18,
     color: "#000000",
-    fontFamily: 'LatoItalic'
+    fontFamily: "LatoItalic",
+    marginRight: 10,
   },
 
   image: {
-    width: "100%",
-    height: "100%",
-    borderRadius: 4,
-    overflow: "hidden",
+    backgroundColor: colors.primaryDarker,
+    borderTopLeftRadius: radius - 2,
+    borderTopRightRadius: radius - 2,
+    marginTop: 3,
+    marginLeft:3,
+    marginRight:3,
+    flex: 1,
+    borderWidth:1,
+    borderColor: colors.border,
   },
-  button: {
-    padding: 10,
-    width: "100%",
-    height: "100%",
-    justifyContent: "flex-end",
+
+  imagePanel: {
+    flex: 1,
+    backgroundColor: colors.primary,
+    borderTopLeftRadius: radius,
+    borderTopRightRadius: radius,
+  },
+
+  textPanel: {
+    height: 30,
+    justifyContent: "center",
     alignItems: "flex-end",
+    backgroundColor: colors.primary,
+    borderBottomLeftRadius: radius,
+    borderBottomRightRadius: radius,
   },
 });

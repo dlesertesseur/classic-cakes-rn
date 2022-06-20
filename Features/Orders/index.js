@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { DDBB_URL } from "../../Constants/firebase";
+import { DDBB_URL } from "@env";
 
 const initialState = {
   value: {

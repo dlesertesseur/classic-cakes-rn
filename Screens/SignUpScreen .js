@@ -1,5 +1,3 @@
-import Screen from "./Screen";
-import CustomTextInput from "../Components/CustomTextInput";
 import React, { useState, useRef, useEffect } from "react";
 import {
   StyleSheet,
@@ -13,6 +11,9 @@ import { resetAuthData, signUp } from "../Features/Auth";
 import { schemaEmail, schemaPassword } from "../Util/validateSchemas";
 import { useDispatch, useSelector } from "react-redux";
 import { colors } from "../Styles/Colors";
+import { resetLocationData} from "../Features/Locations"
+import Screen from "./Screen";
+import CustomTextInput from "../Components/CustomTextInput";
 
 const SignUpScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");

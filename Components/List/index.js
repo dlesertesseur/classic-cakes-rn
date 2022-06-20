@@ -9,6 +9,7 @@ const index = (props) => {
     <>
       {data !== null && data.length > 0 ? (
         <FlatList
+          style={styles.list}
           numColumns={columns}
           data={data}
           renderItem={renderElement}
@@ -33,5 +34,9 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
+  },
+
+  list: {
+    paddingHorizontal: 5,
   },
 });

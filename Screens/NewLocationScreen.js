@@ -149,7 +149,7 @@ const NewLocationScreen = (props) => {
           onPress={onConfirm}
           disabled={confirmButtonDisabled}
           text={stringTable.BT_CONFIRM}
-          color={colors.confirmButtom}
+          color={colors.confirmButton}
         />
 
         <NotificationDialog
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.confirmButtom,
+    backgroundColor: colors.confirmButton,
     marginBottom: 15,
   },
 

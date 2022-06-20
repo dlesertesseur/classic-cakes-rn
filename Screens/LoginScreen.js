@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
-import Screen from "./Screen";
-import CustomTextInput from "../Components/CustomTextInput";
 import { getErrorMessage, stringTable } from "../Styles/StringTable";
 import { useDispatch, useSelector } from "react-redux";
 import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from "react-native";
 import { login } from "../Features/Auth";
+import { resetLocationData} from "../Features/Locations"
 import { schemaEmail, schemaPassword } from "../Util/validateSchemas";
 import { colors } from "../Styles/Colors";
-import { resetLocationData } from "../Features/Locations";
+import Screen from "./Screen";
+import CustomTextInput from "../Components/CustomTextInput";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");

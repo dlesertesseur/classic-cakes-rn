@@ -1,17 +1,17 @@
 import React from "react";
 import { colors } from "../Styles/Colors";
-import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 
-const LocationItem = (props) => {
-  const { location, onRemove = null } = props;
+const SelectionLocationItem = (props) => {
+  const { location, onPress, selected = false} = props;
 
-  const onLocalRemove = () => {
-    onRemove(location);
-  };
+  const onLocalPress = () => {
+    onPress(location);
+  }
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onLocalPress}>
       <View style={styles.row}>
         <Image style={styles.image} source={{ uri: location.picture }} />
         <View style={styles.itemData}>
@@ -23,27 +23,21 @@ const LocationItem = (props) => {
           </View>
         </View>
 
-        {onRemove !== null ? (
-          <View style={styles.buttons}>
-            <TouchableOpacity style={styles.button} onPress={onLocalRemove}>
-              <MaterialIcons name="highlight-remove" size={32} color="black" />
-            </TouchableOpacity>
-          </View>
-        ) : (
-          <></>
-        )}
+        {selected ?
+        <MaterialIcons name="check-circle" size={32} color="green" style={styles.icon}/>
+        :<></>}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
-export default LocationItem;
+export default SelectionLocationItem;
 
 const styles = StyleSheet.create({
   container: {
     height: 90,
-    marginHorizontal: 10,
-    marginBottom: 10,
+    margin: 5,
+    marginBottom: 5,
   },
 
   text: {
@@ -105,8 +99,9 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
 
-  button: {
-    //justifyContent: "center",
-    //alignItems: "flex-start",
+  icon: {
+    marginRight: 15,
   },
+
+  button: {},
 });

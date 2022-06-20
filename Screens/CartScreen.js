@@ -18,6 +18,8 @@ import { colors } from "../Styles/Colors";
 import { useSelector, useDispatch } from "react-redux";
 import { confirmPurchase, removeItem, clearData } from "../Features/Cart";
 import { getOrders } from "../Features/Orders";
+import SelectionDialog from "../Components/SelectionDialog";
+import { getLocations } from "../Features/Locations";
 
 const CartScreen = (props) => {
   const { navigation, route } = props;
@@ -26,20 +28,24 @@ const CartScreen = (props) => {
 
   const dispatch = useDispatch();
 
-  const { products, error } = useSelector((state) => state.cart.value);
+  const { products, error, total } = useSelector((state) => state.cart.value);
+  const { locations } = useSelector((state) => state.locations.value);
   const { user } = useSelector((state) => state.auth.value);
 
-  const [totalToPay, setTotalToPay] = useState(0);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-
-  const [showAlerDialog, setShowAlerDialog] = useState(false);
   const [showPurchaseConfirmedDialog, setShowPurchaseConfirmedDialog] = useState(false);
+  const [locationSelectionVisible, setLocationSelectionVisible] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showAlerDialog, setShowAlerDialog] = useState(false);
+  const [orderId, setOrderId] = useState(null);
+
+  const getNextId = () => {
+    const ret = new Date().getTime();
+    return ret;
+  };
 
   useEffect(() => {
-    let total = 0;
-    products.map((p) => (total += p.price));
-    setTotalToPay(total);
-  }, [products]);
+    dispatch(getLocations());
+  }, []);
 
   const onDelete = (product) => {
     setSelectedProduct(product);
@@ -49,15 +55,24 @@ const CartScreen = (props) => {
   const onConfirmDelete = () => {
     dispatch(removeItem(selectedProduct));
     setShowAlerDialog(false);
-  }
+  };
+
+  const onConfirmLocation = (location) => {
+
+    setLocationSelectionVisible(false);
+
+    const id = getNextId();
+
+    dispatch(confirmPurchase({ orderId: id, email: user.email, items: products, address: location.address}));
+    setOrderId(id);
+
+    //RECARGA LAS ORDENES AL CREAR UNA NUEVA
+    dispatch(getOrders());
+    setShowPurchaseConfirmedDialog(true);
+  };
 
   const onConfirm = () => {
-    dispatch(confirmPurchase({email: user.email, items: products}));
-    
-    /*RECARGA LAS ORDENES AL CREAR UNA NUEVA*/
-    dispatch(getOrders());
-
-    setShowPurchaseConfirmedDialog(true);
+    setLocationSelectionVisible(true);
   };
 
   const renderElement = ({ item }) => {
@@ -74,21 +89,40 @@ const CartScreen = (props) => {
             renderItem={renderElement}
             keyExtractor={(item) => item.id}
           />
-          <PaymentPanel onPress={onConfirm} totalToPay={totalToPay} />
+          <PaymentPanel onPress={onConfirm} totalToPay={total} />
+
+          <SelectionDialog
+            visible={locationSelectionVisible}
+            locations={locations}
+            title={stringTable.SCREEN_LOCATIONS}
+            onCancel={() => {
+              setLocationSelectionVisible(false);
+            }}
+            onAction={onConfirmLocation}
+          />
 
           <AlertDialog
             visible={showAlerDialog}
             text={stringTable.REMOVE_PRODUCT_TEXT}
             onAction={onConfirmDelete}
-            onCancel={ () => {setShowAlerDialog(false)}}
+            onCancel={() => {
+              setShowAlerDialog(false);
+            }}
           />
 
           <NotificationDialog
             visible={showPurchaseConfirmedDialog}
-            text={error ? stringTable.PURCHASE_ERROR_TEXT : stringTable.PURCHASE_CONFIRMED_TEXT}
-            type={error ? 'error' : "notification"}
-            onClose={ () => {
-              setShowPurchaseConfirmedDialog(false)
+            text={
+              error
+                ? stringTable.PURCHASE_ERROR_TEXT
+                : stringTable.PURCHASE_CONFIRMED_TEXT
+            }
+            detail={
+              error ? null : stringTable.PURCHASE_CONFIRMED_TEXT_ID + orderId
+            }
+            type={error ? "error" : "notification"}
+            onClose={() => {
+              setShowPurchaseConfirmedDialog(false);
               dispatch(clearData());
             }}
           />

@@ -63,7 +63,7 @@ export default ProductDetailScreen;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    //padding: 10,
     justifyContent: "flex-start",
     alignItems: "center",
   },
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
   image: {
     borderRadius: 4,
     overflow: "hidden",
+    marginBottom: 10,
   },
 
   properties: {
