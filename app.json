@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "classic-cakes-rn",
-    "slug": "classic-cakes-rn",
+    "name": "classic-cakes",
+    "slug": "classic-cakesn",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,10 +20,17 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode":1,
+      "package":"com.custombotic.classiccakes",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "permissions":[
+        "CAMERA",
+        "ACCESS_FINE_LOCATION",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
