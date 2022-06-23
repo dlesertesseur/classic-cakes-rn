@@ -60,8 +60,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: colors.confirmPanel,
-    borderWidth: 1,
-    borderColor: colors.confirmPanelBorder,
   },
 
   bottomPanel: {

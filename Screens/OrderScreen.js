@@ -14,12 +14,12 @@ const OrderScreen = (props) => {
 
   const dispatch = useDispatch();
 
-  const { orders, loading} = useSelector((state) => state.orders.value);
+  const { orders, loading, updateData} = useSelector((state) => state.orders.value);
   const { user } = useSelector((state) => state.auth.value);
 
   useEffect(() => {
     dispatch(getOrdersByEmail({email: user.email}));
-  }, []);
+  }, [updateData]);
 
   const onPress = (order) => {
     dispatch(setOrderSelected(order.id));

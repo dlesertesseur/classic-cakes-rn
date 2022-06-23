@@ -1,40 +1,48 @@
 import React, { useState } from "react";
 import SelectionLocationItem from "./SelectionLocationItem";
-import { StyleSheet, View, Text, TouchableOpacity, Modal, FlatList } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Modal,
+  FlatList,
+} from "react-native";
 import { colors } from "../Styles/Colors";
 import { stringTable } from "../Styles/StringTable";
 
 const SelectionDialog = (props) => {
   const { visible, title = "NO DEF", onAction, onCancel, locations } = props;
-
   const [selectLocation, setselectLocation] = useState(null);
 
   const onSeletLocation = (location) => {
     setselectLocation(location);
-  }
-  
+  };
+
   const isSelected = (id) => {
     let ret = false;
-    if(selectLocation != null){
+    if (selectLocation != null) {
       ret = selectLocation.id === id;
     }
-    return(ret);
-  }
+    return ret;
+  };
 
   const renderElement = ({ item }) => {
-    return <SelectionLocationItem location={item} onPress={onSeletLocation} selected={isSelected(item.id)} ></SelectionLocationItem>;
+    return (
+      <SelectionLocationItem
+        location={item}
+        onPress={onSeletLocation}
+        selected={isSelected(item.id)}
+      ></SelectionLocationItem>
+    );
   };
 
   const onLocalAction = () => {
     onAction(selectLocation);
-  }
+  };
 
   return (
-    <Modal
-      animationType={"fade"}
-      transparent={true}
-      visible={visible}
-    >
+    <Modal animationType={"fade"} transparent={true} visible={visible}>
       <View style={styles.centeredView}>
         <View style={styles.panel}>
           <View style={styles.textPanel}>
@@ -59,9 +67,24 @@ const SelectionDialog = (props) => {
           </View>
 
           <View style={styles.bottomPanel}>
-            <TouchableOpacity style={selectLocation === null ? styles.buttonSelectionDisabled : styles.buttonSelection} 
-            onPress={onLocalAction} disabled={selectLocation === null}>
-              <Text style={selectLocation === null ? styles.buttonDisabledText : styles.buttonText}>{stringTable.BT_SELECT}</Text>
+            <TouchableOpacity
+              style={
+                selectLocation === null
+                  ? styles.buttonSelectionDisabled
+                  : styles.buttonSelection
+              }
+              onPress={onLocalAction}
+              disabled={selectLocation === null}
+            >
+              <Text
+                style={
+                  selectLocation === null
+                    ? styles.buttonDisabledText
+                    : styles.buttonText
+                }
+              >
+                {stringTable.BT_SELECT}
+              </Text>
             </TouchableOpacity>
             <View style={styles.separator}></View>
             <TouchableOpacity style={styles.button} onPress={onCancel}>
@@ -146,7 +169,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.confirmButton
+    backgroundColor: colors.confirmButton,
   },
 
   buttonSelectionDisabled: {
@@ -155,11 +178,15 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.disabledButton
+    backgroundColor: colors.disabledButton,
   },
 
-  buttonText: { fontSize: 16, fontWeight: "bold" , color: "black"},
-  buttonDisabledText: { fontSize: 16, fontWeight: "bold", color: colors.disabledFont},
+  buttonText: { fontSize: 16, fontWeight: "bold", color: "black" },
+  buttonDisabledText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: colors.disabledFont,
+  },
 
   separator: { width: 10 },
 

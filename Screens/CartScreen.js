@@ -12,13 +12,13 @@ import {
 } from "react-native";
 
 import NotificationDialog from "../Components/NotificacionDialog";
+import SelectionDialog from "../Components/SelectionDialog";
 import { stringTable } from "../Styles/StringTable";
 import { useState, useEffect } from "react";
 import { colors } from "../Styles/Colors";
 import { useSelector, useDispatch } from "react-redux";
 import { confirmPurchase, removeItem, clearData } from "../Features/Cart";
-import { getOrders } from "../Features/Orders";
-import SelectionDialog from "../Components/SelectionDialog";
+import { updateData } from "../Features/Orders";
 import { getLocations } from "../Features/Locations";
 
 const CartScreen = (props) => {
@@ -63,11 +63,13 @@ const CartScreen = (props) => {
 
     const id = getNextId();
 
-    dispatch(confirmPurchase({ orderId: id, email: user.email, items: products, address: location.address}));
+    const order = { orderId: id, email: user.email, items: products, address: location.address};
+
+    dispatch(confirmPurchase(order));
     setOrderId(id);
 
-    //RECARGA LAS ORDENES AL CREAR UNA NUEVA
-    dispatch(getOrders());
+    //Indica la actualizacion de las ordenes
+    dispatch(updateData());
     setShowPurchaseConfirmedDialog(true);
   };
 

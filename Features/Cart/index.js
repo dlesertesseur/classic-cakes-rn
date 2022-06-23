@@ -17,7 +17,6 @@ const calculateTotal = (products) => {
   return(total);
 }
 
-
 export const confirmPurchase = createAsyncThunk(
   "cart/confirm",
   async ({orderId, email, items, address}, asyncThunk) => {

@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { getErrorMessage, stringTable } from "../Styles/StringTable";
-import { resetAuthData, signUp } from "../Features/Auth";
+import { signUp } from "../Features/Auth";
 import { schemaEmail, schemaPassword } from "../Util/validateSchemas";
 import { useDispatch, useSelector } from "react-redux";
 import { colors } from "../Styles/Colors";
@@ -20,7 +20,7 @@ const SignUpScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loginError, setLoginError] = useState("");
-  const [btBackToLoginVisble, setBtBackToLoginVisble] = useState(false);
+  //const [btBackToLoginVisble, setBtBackToLoginVisble] = useState(false);
 
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -32,10 +32,10 @@ const SignUpScreen = ({ navigation }) => {
 
   const focusRef = useRef(null);
 
-  const onBackToLogin = () => {
+/*   const onBackToLogin = () => {
     navigation.navigate("Login");
     dispatch(resetAuthData());
-  };
+  }; */
 
   useEffect(() => {
     focusRef.current.focus();
@@ -44,7 +44,7 @@ const SignUpScreen = ({ navigation }) => {
   useEffect(() => {
     if (error.trim() != "") {
       setLoginError(getErrorMessage(error));
-      setBtBackToLoginVisble(error === "EMAIL_EXISTS");
+      //setBtBackToLoginVisble(error === "EMAIL_EXISTS");
     }
   }, [error]);
 
@@ -122,7 +122,7 @@ const SignUpScreen = ({ navigation }) => {
           <></>
         )}
 
-        {btBackToLoginVisble ? (
+        {/*{btBackToLoginVisble ? (
           <TouchableOpacity style={styles.btBack} onPress={onBackToLogin}>
             <Text style={styles.btLoingText}>
               {stringTable.BT_BACK_TO_LOGIN}
@@ -130,7 +130,7 @@ const SignUpScreen = ({ navigation }) => {
           </TouchableOpacity>
         ) : (
           <></>
-        )}
+        )} */}
       </View>
     </Screen>
   );
